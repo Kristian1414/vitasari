@@ -10,6 +10,7 @@ import {
   SparkleIcon,
 } from '../components/Icons';
 import { categories, products } from '../data/products';
+import { assetUrl } from '../utils/assetUrl';
 
 /**
  * Keterangan sertifikat halal.
@@ -66,7 +67,7 @@ export default function Home() {
       <section className="hero">
         {/* Foto latar penuh. Ganti file-nya di public/images/hero-bg.jpg untuk memakai foto Vitasari. */}
         <div className="hero__bg" aria-hidden="true">
-          <img src="/images/hero-bg.jpg" alt="" fetchpriority="high" />
+          <img src={assetUrl("/images/hero-bg.jpg")} alt="" fetchpriority="high" />
         </div>
 
         <div className="container hero__inner">
@@ -202,7 +203,7 @@ export default function Home() {
         <div className="container halal__inner">
           <Reveal className="halal__logo" variant="zoom">
             <img
-              src="/images/halal-indonesia.svg"
+              src={assetUrl("/images/halal-indonesia.svg")}
               alt="Logo Halal Indonesia dari Badan Penyelenggara Jaminan Produk Halal"
               width="120"
               height="215"

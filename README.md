@@ -6,10 +6,27 @@ Website toko roti **Vitasari Bakery** Bandung (terpercaya sejak 1991), dibuat de
 
 ```bash
 npm install      # sekali saja
-npm run dev      # buka http://localhost:5173
+npm run dev      # buka http://localhost:5173/vitasari/
 npm run build    # build produksi ke folder dist/
-npm run preview  # cek hasil build
+npm run preview  # cek hasil build di http://localhost:4173/vitasari/
 ```
+
+Alamatnya memakai akhiran `/vitasari/` karena website ini dilayani dari subfolder
+di GitHub Pages. Base path yang sama dipakai saat pengembangan supaya perilakunya
+persis sama dengan hasil akhirnya.
+
+## Deploy ke GitHub Pages
+
+Setiap `git push` ke branch `main` otomatis mem-build dan menerbitkan website
+lewat GitHub Actions (`.github/workflows/deploy.yml`). Tidak perlu perintah
+tambahan.
+
+Alamat website: **https://kristian1414.github.io/vitasari/**
+
+Pengaturan yang perlu dilakukan sekali di GitHub:
+Settings -> Pages -> Source, pilih **GitHub Actions**.
+
+Kalau nama repositori diganti, ubah juga `REPO_NAME` di `vite.config.js`.
 
 ## Fitur
 
