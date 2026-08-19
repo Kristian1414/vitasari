@@ -1,4 +1,4 @@
-import { lazy, Suspense, useRef, useState } from 'react';
+import { lazy, Suspense, useState } from 'react';
 import {
   ArrowRightIcon,
   ClockIcon,
@@ -34,23 +34,13 @@ function ChevronIcon(props) {
 
 export default function Branches() {
   const [selectedId, setSelectedId] = useState(null);
-  const mapWrapRef = useRef(null);
 
   // Klik cabang yang sama dua kali akan menutup panelnya dan mengembalikan
   // peta ke tampilan seluruh cabang.
-  const handleSelect = (id) => {
-    const next = selectedId === id ? null : id;
-    setSelectedId(next);
-
-    // Di layar sempit peta berada di atas daftar, jadi digeser ke tampilan
-    // supaya user langsung melihat hasil zoom-nya.
-    if (next && window.innerWidth <= 900) {
-      mapWrapRef.current?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-      });
-    }
-  };
+  //
+  // Halaman sengaja tidak digeser otomatis ke peta: di layar sempit hal itu
+  // membuat posisi baca user melompat setiap kali membuka sebuah cabang.
+  const handleSelect = (id) => setSelectedId((current) => (current === id ? null : id));
 
   return (
     <>
@@ -143,7 +133,7 @@ export default function Branches() {
             })}
           </div>
 
-          <div className="stores__map" ref={mapWrapRef}>
+          <div className="stores__map">
             <Suspense
               fallback={
                 <div className="branch-map branch-map--loading">
