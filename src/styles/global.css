@@ -2433,10 +2433,11 @@ img.product-image.is-loaded {
     gap: 44px;
   }
 
+  /* Begitu hero menumpuk jadi satu kolom, foto bulatnya disembunyikan. Latar
+     hero sudah berupa foto penuh, jadi dua foto bertumpuk terasa berlebihan
+     sekaligus membuat hero terlalu panjang di layar HP dan tablet. */
   .hero__visual {
-    max-width: 440px;
-    margin: 0 auto;
-    width: 100%;
+    display: none;
   }
 
   /* Teks memakai lebar penuh, jadi lapisan putihnya dibuat lebih rata.
@@ -2531,12 +2532,6 @@ img.product-image.is-loaded {
 }
 
 @media (max-width: 640px) {
-  /* Foto bulat di hero disembunyikan di layar HP. Latar hero sudah berupa foto,
-     jadi dua foto bertumpuk terasa berlebihan sekaligus membuat hero kepanjangan. */
-  .hero__visual {
-    display: none;
-  }
-
   .section {
     padding: 60px 0;
   }
