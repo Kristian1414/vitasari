@@ -2531,6 +2531,12 @@ img.product-image.is-loaded {
 }
 
 @media (max-width: 640px) {
+  /* Foto bulat di hero disembunyikan di layar HP. Latar hero sudah berupa foto,
+     jadi dua foto bertumpuk terasa berlebihan sekaligus membuat hero kepanjangan. */
+  .hero__visual {
+    display: none;
+  }
+
   .section {
     padding: 60px 0;
   }
