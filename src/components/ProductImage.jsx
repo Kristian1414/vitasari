@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { BreadIcon } from './Icons';
+import { assetUrl } from '../utils/assetUrl';
 
 /** Palet gradasi krem hangat untuk placeholder, dipilih berdasarkan nama produk. */
 const PLACEHOLDER_GRADIENTS = [
@@ -57,7 +58,7 @@ export default function ProductImage({ src, alt, className = '' }) {
     <img
       ref={imgRef}
       className={`product-image ${loaded ? 'is-loaded' : ''} ${className}`.trim()}
-      src={src}
+      src={assetUrl(src)}
       alt={alt}
       loading="lazy"
       onLoad={() => setLoaded(true)}
