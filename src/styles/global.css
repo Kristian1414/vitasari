@@ -83,6 +83,10 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  /* Cegah halaman bisa digeser ke samping. Dipakai `clip`, bukan `hidden`,
+     karena `hidden` akan membuat html jadi wadah scroll sendiri dan itu
+     merusak `position: sticky` pada navbar. */
+  overflow-x: clip;
 }
 
 body {
@@ -2239,6 +2243,15 @@ ol {
   }
 }
 
+/* Di layar sempit, isi halaman memakai lebar penuh sehingga geseran ke samping
+   akan menonjol keluar batas layar. Animasi kiri/kanan diganti animasi naik. */
+@media (max-width: 1024px) {
+  .reveal--left.is-visible,
+  .reveal--right.is-visible {
+    animation-name: reveal-up;
+  }
+}
+
 @keyframes reveal-zoom {
   from {
     opacity: 0;
@@ -2596,9 +2609,41 @@ img.product-image.is-loaded {
     grid-template-columns: 1fr;
   }
 
+  /* Footer di layar HP: blok merek melebar penuh dan rata tengah, tiga kolom
+     tautan disusun dua kolom supaya tidak memanjang ke bawah, dan baris hak
+     cipta ditumpuk rata tengah agar tidak terpotong tak beraturan. */
   .footer__inner {
-    grid-template-columns: 1fr;
-    padding-top: 48px;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px 20px;
+    padding-top: 44px;
+    padding-bottom: 36px;
+  }
+
+  .footer__brand {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer__brand p {
+    max-width: 34ch;
+  }
+
+  .footer__col h4 {
+    margin-bottom: 12px;
+  }
+
+  .footer__col li {
+    margin-bottom: 8px;
+  }
+
+  .footer__bottom-inner {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    gap: 5px;
   }
 
   .modal {
