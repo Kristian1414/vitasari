@@ -23,14 +23,14 @@ const HALAL = {
 };
 
 const HIGHLIGHT_IDS = [
-  'roti-coklat-keju',
-  'roti-abon-sapi',
-  'bolu-jadul',
-  'egg-cheese-roll',
-  'pudding-lumut-pandan',
-  'roti-tawar-spesial',
-  'pisang-bolen-lilit',
-  'marmer-cake',
+  'egg-cheese',
+  'roti-coklat',
+  'roti-sisir',
+  'roti-abon-ayam',
+  'puding-lumut',
+  'bolu-jadoel',
+  'bolen-pisang-coklat',
+  'blackforest-15',
 ];
 
 const REASONS = [

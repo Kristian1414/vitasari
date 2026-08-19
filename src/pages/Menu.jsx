@@ -37,7 +37,7 @@ export default function Menu() {
       const matchKeyword =
         !query ||
         product.name.toLowerCase().includes(query) ||
-        product.description.toLowerCase().includes(query);
+        (product.unit || '').toLowerCase().includes(query);
 
       return matchCategory && matchKeyword;
     });
@@ -128,8 +128,10 @@ export default function Menu() {
             </div>
           ) : (
             <div className="product-grid">
-              {visibleProducts.map((product, index) => (
-                <ProductCard key={product.id} product={product} index={index} />
+              {visibleProducts.map((product) => (
+                // Tanpa animasi muncul: daftarnya panjang, dan saat di-scroll
+                // cepat animasi itu justru membuat produk terasa telat tampil.
+                <ProductCard key={product.id} product={product} reveal={false} />
               ))}
             </div>
           )}

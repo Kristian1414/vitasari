@@ -13,7 +13,12 @@ const toBadgeSlug = (badge) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-|-$/g, '');
 
-export default function ProductCard({ product, index = 0 }) {
+/**
+ * `reveal` mengatur animasi muncul saat di-scroll. Dimatikan di halaman Menu
+ * yang berisi puluhan produk: saat di-scroll cepat, animasi berurutannya
+ * membuat kartu terasa telat muncul.
+ */
+export default function ProductCard({ product, index = 0, reveal = true }) {
   const { addItem, increment, decrement, updateQty, getQty } = useCart();
   const [revealRef, isVisible] = useScrollReveal();
   const qty = getQty(product.id);
@@ -22,9 +27,9 @@ export default function ProductCard({ product, index = 0 }) {
   const classes = [
     'product-card',
     `product-card--cat-${product.category}`,
-    'reveal',
-    'reveal--up',
-    isVisible ? 'is-visible' : '',
+    reveal ? 'reveal' : '',
+    reveal ? 'reveal--up' : '',
+    reveal && isVisible ? 'is-visible' : '',
     inCart ? 'product-card--active' : '',
   ]
     .filter(Boolean)
@@ -32,9 +37,10 @@ export default function ProductCard({ product, index = 0 }) {
 
   return (
     <article
-      ref={revealRef}
+      // Tanpa ref, tidak ada pengamat scroll yang dipasang sama sekali.
+      ref={reveal ? revealRef : undefined}
       className={classes}
-      style={{ animationDelay: `${staggerDelay(index)}ms` }}
+      style={reveal ? { animationDelay: `${staggerDelay(index)}ms` } : undefined}
     >
       <div className="product-card__media">
         <ProductImage src={product.image} alt={product.name} />
@@ -54,7 +60,7 @@ export default function ProductCard({ product, index = 0 }) {
 
       <div className="product-card__body">
         <h3 className="product-card__name">{product.name}</h3>
-        <p className="product-card__desc">{product.description}</p>
+        {product.description && <p className="product-card__desc">{product.description}</p>}
 
         <div className="product-card__footer">
           <div className="product-card__price">

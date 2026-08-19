@@ -44,6 +44,10 @@
   --terracotta-ink: #a84a29;
   --terracotta-wash: #fdf0ea;
 
+  --plum: #9a5bb0;
+  --plum-ink: #7b3f91;
+  --plum-wash: #f7eefb;
+
   /* Warna dasar footer yang gelap, sebagai penutup halaman. */
   --footer-bg: #2a1d12;
   --footer-text: #f3e9dc;
@@ -584,10 +588,12 @@ ol {
 
 /* ---------- Product grid & card ---------- */
 
+/* Foto produk berukuran 580 px, jadi kartu selebar ~230 px masih menyisakan
+   cadangan resolusi 2,5x dan tetap tajam di layar ber-DPI tinggi. */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(238px, 1fr));
-  gap: 22px;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 20px;
 }
 
 .product-card {
@@ -610,9 +616,11 @@ ol {
   border-color: var(--tone, var(--accent-soft));
 }
 
+/* Foto katalog berbentuk persegi, jadi rasio kartu ikut persegi supaya tidak
+   ada bagian gambar yang terpotong. */
 .product-card__media {
   position: relative;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1 / 1;
   background: var(--surface-2);
   overflow: hidden;
 }
@@ -768,6 +776,10 @@ ol {
   --tone: var(--terracotta-ink);
 }
 
+.product-card--cat-pelengkap {
+  --tone: var(--plum-ink);
+}
+
 .product-card__price span {
   font-size: 0.75rem;
   color: var(--text-dim);
@@ -913,6 +925,11 @@ ol {
 .category-card--pastry {
   --tone: var(--terracotta-ink);
   --tone-wash: var(--terracotta-wash);
+}
+
+.category-card--pelengkap {
+  --tone: var(--plum-ink);
+  --tone-wash: var(--plum-wash);
 }
 
 .category-card:hover {
@@ -1263,6 +1280,10 @@ ol {
 
 .chip--pastry {
   --tone: var(--terracotta-ink);
+}
+
+.chip--pelengkap {
+  --tone: var(--plum-ink);
 }
 
 .result-count {
@@ -2453,11 +2474,12 @@ img.product-image.is-loaded {
     display: none;
   }
 
-  /* Teks memakai lebar penuh, jadi lapisan putihnya dibuat lebih rata.
-     Tetap sedikit lebih pekat dari versi desktop supaya teks tetap terbaca. */
+  /* Teks memakai lebar penuh, jadi lapisan putihnya dibuat lebih rata daripada
+     versi desktop yang menipis ke kanan. Tetap disisakan cukup di bagian atas
+     karena judul dan paragraf hero berada di sana. */
   .hero__bg::after {
     background:
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.88), rgba(255, 255, 255, 0.78) 55%, #fff 100%);
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.6) 55%, #fff 100%);
   }
 
   .about-split {
@@ -2563,13 +2585,56 @@ img.product-image.is-loaded {
     padding: 56px 0 72px;
   }
 
-  .hero__actions .btn {
-    flex: 1;
+  /* Tombol hero dibuat seukuran isinya, bukan melebar penuh, supaya tidak
+     mendominasi layar HP. */
+  .hero__actions {
+    gap: 10px;
+  }
+
+  .hero__actions .btn--lg {
+    padding: 12px 20px;
+    font-size: 0.9rem;
   }
 
   .product-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 14px;
+  }
+
+  /* Kartu kategori juga dua kolom, kalau satu kolom kartunya terlihat
+     kebesaran. Jarak dalamnya ikut dirapatkan agar isinya tetap muat. */
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .category-card {
+    padding: 18px 14px;
+    gap: 6px;
+  }
+
+  /* Kalau jumlah kartunya ganjil, kartu terakhir tersisa sendirian di kolom
+     kiri. Kartu itu dibentangkan ke dua kolom lalu dipusatkan, dengan lebar
+     tetap sama seperti kartu lain (setengah lebar dikurangi separuh jarak). */
+  .category-card:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc(50% - 6px);
+  }
+
+  .category-card__icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+  }
+
+  .category-card h3 {
+    font-size: 0.96rem;
+  }
+
+  .category-card__arrow {
+    top: 16px;
+    right: 14px;
   }
 
   .product-card__body {
@@ -2631,12 +2696,27 @@ img.product-image.is-loaded {
     max-width: 34ch;
   }
 
+  /* Navigasi dan Cabang berdampingan dua kolom, rata tengah. */
+  .footer__col {
+    text-align: center;
+  }
+
+  /* Jam Operasional (kolom terakhir) melebar penuh di baris bawah. */
+  .footer__col:last-child {
+    grid-column: 1 / -1;
+  }
+
   .footer__col h4 {
     margin-bottom: 12px;
   }
 
   .footer__col li {
     margin-bottom: 8px;
+  }
+
+  .footer__muted {
+    max-width: 34ch;
+    margin-inline: auto;
   }
 
   .footer__bottom-inner {
