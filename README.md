@@ -32,7 +32,7 @@ Kalau nama repositori diganti, ubah juga `REPO_NAME` di `vite.config.js`.
 
 | Fitur | Keterangan |
 | --- | --- |
-| Katalog produk | 30 produk, 5 kategori, ada pencarian + filter kategori + urutkan harga |
+| Katalog produk | 84 produk, 6 kategori, ada pencarian + filter kategori + urutkan harga |
 | Add to cart | Tambah/kurangi jumlah dari kartu produk maupun dari drawer keranjang |
 | Keranjang persisten | Isi keranjang disimpan di `localStorage` (key `vitasari:cart`), tidak hilang saat refresh atau browser ditutup, dan tersinkron antar tab |
 | Order via WhatsApp | Klik **Order Now** → pilih cabang → daftar pesanan otomatis terisi di chat WhatsApp cabang tersebut |
@@ -88,29 +88,33 @@ src/
 - **Cabang & nomor WhatsApp** → `src/data/branches.js` (nomor pakai format `62…` tanpa `+` atau spasi)
 - **Warna, font, jarak** → variabel CSS di bagian `:root` pada `src/styles/global.css`
 
-## Foto produk
+## Foto dan data produk
 
-> ⚠️ **Foto yang terpasang sekarang adalah foto STOK sementara dari [Unsplash](https://unsplash.com/license), bukan produk asli Vitasari.** Sifatnya hanya pengisi supaya tampilan tidak kosong, dan beberapa hanya mirip secara umum (jajanan pasar khas Indonesia tidak tersedia di stok foto). Wajib diganti foto asli sebelum website dipakai pelanggan.
+Nama, harga, dan foto seluruh **84 produk** berasal dari **katalog WhatsApp Business
+resmi Vitasari** (screenshot di folder `menu/`, diambil 20 Agustus 2026).
 
-File pendukung:
+Foto dipotong dari screenshot tersebut lalu dipertajam dengan super-resolution EDSR:
 
-- `docs/DAFTAR-FOTO.md` — checklist 32 file yang dibutuhkan, dikelompokkan per kategori
-- `docs/SUMBER-FOTO.md` — daftar sumber tiap foto stok
-- `scripts/fetch-stock-photos.sh` — unduh ulang semua foto stok (`bash scripts/fetch-stock-photos.sh`)
-
-Untuk memasang foto asli, cukup **timpa file yang sudah ada** dengan nama yang sama — tidak perlu mengubah kode. Kalau sebuah file dihapus, kartu produk otomatis kembali memakai placeholder bergradasi.
-
-Nama file mengikuti kolom `image` pada `src/data/products.js`, contoh:
-
-```
-public/images/products/roti-coklat-keju.jpg
-public/images/hero.jpg      → foto besar di beranda
-public/images/about.jpg     → foto di halaman Tentang
+```bash
+pip install numpy opencv-contrib-python
+python scripts/pertajam_foto.py      # potong + pertajam -> 580x580
+node scripts/buat-products-js.cjs    # tulis ulang src/data/products.js
 ```
 
-Ukuran yang disarankan: produk 800×600 px, hero 1000×1000 px (ditampilkan bulat), about 800×1000 px.
+Tabel produknya ada di `scripts/katalog-vitasari.cjs` — berisi nama, harga, kategori,
+dan letak thumbnail tiap produk pada screenshot. Ubah di sana lalu jalankan ulang
+skrip di atas.
+
+> Thumbnail sumbernya hanya 145 px, diperbesar 4x jadi **580x580** memakai model EDSR.
+> Hasilnya jauh lebih bersih dibanding pembesaran biasa, tapi tetap bukan setajam foto
+> asli. Kalau Vitasari punya file foto aslinya, timpa saja file di
+> `public/images/products/` dengan nama yang sama — tidak perlu mengubah kode.
+
+Tiga gambar latar halaman (`hero-bg.jpg`, `hero.jpg`, `about.jpg`) masih memakai foto
+stok Unsplash. Detail sumber ada di `docs/SUMBER-FOTO.md`, checklist file di
+`docs/DAFTAR-FOTO.md`.
 
 ## Catatan
 
-- Data produk, deskripsi, dan harga saat ini adalah **contoh** yang disusun dari informasi publik Vitasari Bakery. Silakan sesuaikan dengan daftar harga resmi sebelum website dipakai pelanggan.
+- Nama, harga, dan foto produk berasal dari katalog WhatsApp Business resmi Vitasari per 20 Agustus 2026. Harga bisa berubah sewaktu-waktu, jadi cocokkan lagi secara berkala.
 - Nomor WhatsApp diambil dari [linktr.ee/vitasaribakery](https://linktr.ee/vitasaribakery); alamat dan jam buka cabang dari sumber publik. Verifikasi ulang sebelum rilis.
