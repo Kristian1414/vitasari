@@ -78,16 +78,34 @@ export default function Menu() {
               />
             </div>
 
-            <label className="sort-field">
-              <span className="sr-only">Urutkan produk</span>
-              <select value={sortBy} onChange={(event) => setSortBy(event.target.value)}>
-                {SORT_OPTIONS.map((option) => (
-                  <option key={option.id} value={option.id}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </label>
+            {/* Di layar HP kedua kontrol ini berdampingan; filter kategori memakai
+                dropdown agar tidak memakan banyak baris seperti deretan chip. */}
+            <div className="menu-toolbar__controls">
+              <label className="sort-field">
+                <span className="sr-only">Urutkan produk</span>
+                <select value={sortBy} onChange={(event) => setSortBy(event.target.value)}>
+                  {SORT_OPTIONS.map((option) => (
+                    <option key={option.id} value={option.id}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label className="filter-field">
+                <span className="sr-only">Filter kategori</span>
+                <select
+                  value={activeCategory}
+                  onChange={(event) => handleCategoryChange(event.target.value)}
+                >
+                  {categories.map((category) => (
+                    <option key={category.id} value={category.id}>
+                      {category.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
           </div>
 
           <div className="chip-row" role="tablist" aria-label="Kategori produk">

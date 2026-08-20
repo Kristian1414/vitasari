@@ -1191,7 +1191,13 @@ ol {
   outline: none;
 }
 
+.menu-toolbar__controls {
+  display: flex;
+  gap: 10px;
+}
+
 .sort-field select,
+.filter-field select,
 .field select,
 .field input,
 .field textarea {
@@ -1206,6 +1212,7 @@ ol {
 /* Panah bawaan browser diganti panah sendiri supaya bentuknya seragam di semua
    sistem operasi dan jaraknya dari teks tidak berdempetan. */
 .sort-field select,
+.filter-field select,
 .field select {
   appearance: none;
   -webkit-appearance: none;
@@ -1222,10 +1229,22 @@ ol {
   cursor: pointer;
 }
 
+/* Dropdown filter kategori hanya dipakai di layar HP sebagai pengganti deretan
+   chip; di layar besar chip-nya masih muat dan lebih enak dipakai. */
+.filter-field {
+  display: none;
+}
+
+.filter-field select {
+  border-radius: 999px;
+  cursor: pointer;
+}
+
 .field select:focus,
 .field input:focus,
 .field textarea:focus,
-.sort-field select:focus {
+.sort-field select:focus,
+.filter-field select:focus {
   border-color: var(--accent-soft);
   outline: none;
 }
@@ -2662,12 +2681,42 @@ img.product-image.is-loaded {
     justify-content: center;
   }
 
+  /* Toolbar di layar HP ditumpuk: kolom pencarian penuh di atas, lalu tombol
+     urutan dan filter bersebelahan dengan ukuran yang lebih ringkas. */
   .menu-toolbar {
     flex-direction: column;
+    gap: 10px;
   }
 
-  .sort-field select {
+  .menu-toolbar__controls {
+    gap: 8px;
+  }
+
+  .filter-field {
+    display: block;
+  }
+
+  .menu-toolbar__controls .sort-field,
+  .menu-toolbar__controls .filter-field {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .sort-field select,
+  .filter-field select {
     width: 100%;
+    min-width: 0;
+    padding: 9px 32px 9px 14px;
+    font-size: 0.82rem;
+    background-position: right 11px center;
+    background-size: 14px 14px;
+    text-overflow: ellipsis;
+  }
+
+  /* Kategori sudah diwakili dropdown filter, chip-nya tidak perlu ditampilkan
+     lagi supaya layar tidak habis untuk tombol. */
+  .chip-row {
+    display: none;
   }
 
   .field-row {
