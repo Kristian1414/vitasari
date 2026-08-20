@@ -532,16 +532,14 @@ ol {
   gap: 56px;
 }
 
-/* Nama toko jadi elemen paling atas dan paling besar di hero, memakai warna
-   teks gelap supaya terbaca seperti papan nama toko. */
+/* Nama toko memakai tulisan dari logo yang sudah dijadikan vektor, bukan font,
+   supaya bentuk hurufnya persis sama dengan logo. Lebarnya diatur di sini dan
+   tingginya mengikuti sendiri. */
 .hero__brand {
   display: block;
+  width: clamp(196px, 27vw, 344px);
+  height: auto;
   color: var(--text);
-  font-family: var(--font-display);
-  font-size: clamp(3.2rem, 7.4vw, 5.4rem);
-  font-weight: 700;
-  line-height: 1.02;
-  letter-spacing: -0.02em;
 }
 
 /* Baris "Terpercaya sejak 1991" turun ke bawah nama toko dan dibuat lebih kecil
