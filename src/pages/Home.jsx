@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
 import ProductImage from '../components/ProductImage';
+import VitasariWordmark from '../components/VitasariWordmark';
 import Reveal, { staggerDelay } from '../components/Reveal';
 import {
   ArrowRightIcon,
@@ -72,7 +73,7 @@ export default function Home() {
 
         <div className="container hero__inner">
           <div className="hero__content">
-            <span className="hero__brand">Vitasari</span>
+            <VitasariWordmark className="hero__brand" />
             <span className="eyebrow">Terpercaya sejak 1991</span>
             <h1>
               Roti Hangat &amp; Kue Legendaris <em>Khas Bandung</em>
