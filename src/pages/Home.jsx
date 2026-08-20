@@ -1,17 +1,17 @@
-import { Link } from 'react-router-dom';
-import ProductCard from '../components/ProductCard';
-import ProductImage from '../components/ProductImage';
-import VitasariWordmark from '../components/VitasariWordmark';
-import Reveal, { staggerDelay } from '../components/Reveal';
+import { Link } from "react-router-dom";
+import ProductCard from "../components/ProductCard";
+import ProductImage from "../components/ProductImage";
+import VitasariWordmark from "../components/VitasariWordmark";
+import Reveal, { staggerDelay } from "../components/Reveal";
 import {
   ArrowRightIcon,
   BreadIcon,
   ClockIcon,
   MapPinIcon,
   SparkleIcon,
-} from '../components/Icons';
-import { categories, products } from '../data/products';
-import { assetUrl } from '../utils/assetUrl';
+} from "../components/Icons";
+import { categories, products } from "../data/products";
+import { assetUrl } from "../utils/assetUrl";
 
 /**
  * Keterangan sertifikat halal.
@@ -20,47 +20,49 @@ import { assetUrl } from '../utils/assetUrl';
  * baris nomor sertifikat tidak ditampilkan di website.
  */
 const HALAL = {
-  certificateNumber: '',
+  certificateNumber: "",
 };
 
 const HIGHLIGHT_IDS = [
-  'egg-cheese',
-  'roti-coklat',
-  'roti-sisir',
-  'roti-abon-ayam',
-  'puding-lumut',
-  'bolu-jadoel',
-  'bolen-pisang-coklat',
-  'blackforest-15',
+  "egg-cheese",
+  "roti-coklat",
+  "roti-sisir",
+  "roti-abon-ayam",
+  "puding-lumut",
+  "bolu-jadoel",
+  "bolen-pisang-coklat",
+  "blackforest-15",
 ];
 
 const REASONS = [
   {
     icon: <BreadIcon width={24} height={24} />,
-    tone: 'amber',
-    title: 'Resep Warisan Keluarga',
-    text: 'Adonan dan isian dibuat dengan resep yang sama sejak 1991, tanpa jalan pintas dan tanpa pengawet.',
+    tone: "amber",
+    title: "Resep Warisan Keluarga",
+    text: "Adonan dan isian dibuat dengan resep yang sama sejak 1991, tanpa jalan pintas dan tanpa pengawet.",
   },
   {
     icon: <ClockIcon width={24} height={24} />,
-    tone: 'terracotta',
-    title: 'Dipanggang Setiap Pagi',
-    text: 'Produksi dimulai dini hari supaya roti yang kamu ambil di toko masih hangat dan wangi.',
+    tone: "terracotta",
+    title: "Dipanggang Setiap Pagi",
+    text: "Produksi dimulai dini hari supaya roti yang kamu ambil di toko masih hangat dan wangi.",
   },
   {
     icon: <SparkleIcon width={24} height={24} />,
-    tone: 'pandan',
-    title: 'Bahan Pilihan',
-    text: 'Butter, keju, dan coklat berkualitas dengan takaran yang tidak dikurangi, rasa selalu konsisten.',
+    tone: "pandan",
+    title: "Bahan Pilihan",
+    text: "Butter, keju, dan coklat berkualitas dengan takaran yang tidak dikurangi, rasa selalu konsisten.",
   },
 ];
 
 export default function Home() {
-  const highlights = HIGHLIGHT_IDS.map((id) => products.find((product) => product.id === id)).filter(
-    Boolean,
-  );
+  const highlights = HIGHLIGHT_IDS.map((id) =>
+    products.find((product) => product.id === id),
+  ).filter(Boolean);
 
-  const showcaseCategories = categories.filter((category) => category.id !== 'semua');
+  const showcaseCategories = categories.filter(
+    (category) => category.id !== "semua",
+  );
 
   return (
     <>
@@ -68,7 +70,11 @@ export default function Home() {
       <section className="hero">
         {/* Foto latar penuh. Ganti file-nya di public/images/hero-bg.jpg untuk memakai foto Vitasari. */}
         <div className="hero__bg" aria-hidden="true">
-          <img src={assetUrl("/images/hero-bg.jpg")} alt="" fetchpriority="high" />
+          <img
+            src={assetUrl("/images/hero-bg.jpeg")}
+            alt=""
+            fetchpriority="high"
+          />
         </div>
 
         <div className="container hero__inner">
@@ -79,15 +85,16 @@ export default function Home() {
               Roti Hangat &amp; Kue Legendaris <em>Khas Bandung</em>
             </h1>
             <p>
-              Vitasari Bakery memanggang roti, cake, dan jajanan pasar setiap pagi dengan resep
-              keluarga yang tidak pernah berubah. Pilih favoritmu, lalu kirim pesanan langsung ke
-              WhatsApp cabang terdekat.
+              Vitasari Bakery memanggang roti, cake, dan jajanan pasar setiap
+              pagi dengan resep keluarga yang tidak pernah berubah. Pilih
+              favoritmu, lalu kirim pesanan langsung ke WhatsApp cabang
+              terdekat.
             </p>
 
             <div className="hero__actions">
               <Link to="/menu" className="btn btn--primary btn--lg">
                 Pesan Sekarang
-                <ArrowRightIcon width={18} height={18} />
+                <ArrowRightIcon width={16} height={16} />
               </Link>
               <Link to="/cabang" className="btn btn--ghost btn--lg">
                 Lihat Cabang
@@ -116,8 +123,8 @@ export default function Home() {
               <span className="eyebrow">Paling dicari</span>
               <h2 className="section__title">Favorit Pelanggan</h2>
               <p className="section__subtitle">
-                Menu yang paling sering habis sebelum sore. Tambahkan ke keranjang, isinya tetap
-                tersimpan walau halaman di-refresh.
+                Menu yang paling sering habis sebelum sore. Tambahkan ke
+                keranjang, isinya tetap tersimpan walau halaman di-refresh.
               </p>
             </div>
             <Link to="/menu" className="btn btn--ghost">
@@ -149,7 +156,9 @@ export default function Home() {
 
           <div className="category-grid">
             {showcaseCategories.map((category, index) => {
-              const count = products.filter((product) => product.category === category.id).length;
+              const count = products.filter(
+                (product) => product.category === category.id,
+              ).length;
 
               return (
                 <Reveal
@@ -165,7 +174,11 @@ export default function Home() {
                   </span>
                   <h3>{category.label}</h3>
                   <span>{count} varian</span>
-                  <ArrowRightIcon width={16} height={16} className="category-card__arrow" />
+                  <ArrowRightIcon
+                    width={16}
+                    height={16}
+                    className="category-card__arrow"
+                  />
                 </Reveal>
               );
             })}
@@ -216,14 +229,16 @@ export default function Home() {
             <span className="eyebrow">Jaminan produk</span>
             <h2 className="section__title">Bersertifikat Halal</h2>
             <p>
-              Seluruh roti, cake, dan jajanan pasar Vitasari Bakery diproduksi dengan bahan baku
-              dan proses yang telah tersertifikasi halal. Dari pemilihan bahan sampai dapur
-              produksi, semuanya kami jaga supaya keluarga Anda bisa menikmatinya dengan tenang.
+              Seluruh roti, cake, dan jajanan pasar Vitasari Bakery diproduksi
+              dengan bahan baku dan proses yang telah tersertifikasi halal. Dari
+              pemilihan bahan sampai dapur produksi, semuanya kami jaga supaya
+              keluarga Anda bisa menikmatinya dengan tenang.
             </p>
 
             {HALAL.certificateNumber && (
               <p className="halal__cert">
-                Nomor sertifikat halal: <strong>{HALAL.certificateNumber}</strong>
+                Nomor sertifikat halal:{" "}
+                <strong>{HALAL.certificateNumber}</strong>
               </p>
             )}
 
