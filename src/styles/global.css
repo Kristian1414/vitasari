@@ -280,9 +280,11 @@ ol {
   font-size: 0.86rem;
 }
 
+/* Ukuran ini hanya dipakai dua tombol di hero. Sengaja cuma sedikit lebih besar
+   daripada tombol biasa supaya tidak mendominasi hero. */
 .btn--lg {
-  padding: 15px 30px;
-  font-size: 1rem;
+  padding: 12px 24px;
+  font-size: 0.95rem;
 }
 
 .btn--block {
@@ -534,10 +536,12 @@ ol {
 
 /* Nama toko memakai tulisan dari logo yang sudah dijadikan vektor, bukan font,
    supaya bentuk hurufnya persis sama dengan logo. Lebarnya diatur di sini dan
-   tingginya mengikuti sendiri. */
+   tingginya mengikuti sendiri. Angka lebarnya dinaikkan sedikit karena tulisan
+   hasil penelusuran baru lebih memanjang, supaya tinggi nama toko di layar tetap
+   sama seperti sebelumnya. */
 .hero__brand {
   display: block;
-  width: clamp(196px, 27vw, 344px);
+  width: clamp(220px, 30vw, 384px);
   height: auto;
   color: var(--text);
 }
@@ -590,8 +594,13 @@ ol {
   position: relative;
 }
 
+/* Lingkarannya dibatasi 420px dan dirapatkan ke kanan supaya tidak setinggi
+   kolom teks di sebelahnya. Tanpa batas ini ukurannya ikut lebar kolom, di layar
+   lebar bisa lebih dari 500px. */
 .hero__image-frame {
   position: relative;
+  max-width: 420px;
+  margin-left: auto;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
   overflow: hidden;
@@ -1506,13 +1515,6 @@ ol {
   place-items: center;
   color: var(--text-dim);
   font-size: 0.9rem;
-}
-
-.stores__map-hint {
-  margin-top: 12px;
-  font-size: 0.82rem;
-  color: var(--text-dim);
-  text-align: center;
 }
 
 /* ---------- Penanda dan popup peta ---------- */

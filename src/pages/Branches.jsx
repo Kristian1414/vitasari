@@ -143,10 +143,6 @@ export default function Branches() {
             >
               <BranchMap selectedId={selectedId} onSelect={handleSelect} />
             </Suspense>
-            <p className="stores__map-hint">
-              Klik penanda di peta atau nama cabang di sebelah kiri untuk
-              memperbesar lokasinya.
-            </p>
           </div>
         </div>
       </section>
