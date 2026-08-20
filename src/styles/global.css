@@ -532,9 +532,31 @@ ol {
   gap: 56px;
 }
 
+/* Nama toko jadi elemen paling atas dan paling besar di hero, memakai warna
+   teks gelap supaya terbaca seperti papan nama toko. */
+.hero__brand {
+  display: block;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: clamp(3.2rem, 7.4vw, 5.4rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+}
+
+/* Baris "Terpercaya sejak 1991" turun ke bawah nama toko dan dibuat lebih kecil
+   agar berfungsi sebagai keterangan, bukan judul. */
+.hero__content .eyebrow {
+  margin-top: 8px;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+}
+
 .hero__content h1 {
-  margin-top: 16px;
-  font-size: clamp(2.4rem, 5.4vw, 4rem);
+  margin-top: 14px;
+  /* Judul sengaja lebih kecil dari nama toko supaya urutan bacanya jelas dan
+     seluruh isi hero tetap muat dalam satu layar. */
+  font-size: clamp(1.4rem, 2.7vw, 2.05rem);
 }
 
 .hero__content h1 em {
@@ -2329,6 +2351,10 @@ ol {
 
 .hero__content > *:nth-child(5) {
   animation-delay: 0.45s;
+}
+
+.hero__content > *:nth-child(6) {
+  animation-delay: 0.55s;
 }
 
 .hero__image-frame {

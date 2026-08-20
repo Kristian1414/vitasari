@@ -72,6 +72,7 @@ export default function Home() {
 
         <div className="container hero__inner">
           <div className="hero__content">
+            <span className="hero__brand">Vitasari</span>
             <span className="eyebrow">Terpercaya sejak 1991</span>
             <h1>
               Roti Hangat &amp; Kue Legendaris <em>Khas Bandung</em>
