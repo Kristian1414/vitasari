@@ -1,12 +1,15 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { branches } from '../data/branches';
 import { InstagramIcon, WhatsAppIcon } from './Icons';
+import WhatsAppBranchModal from './WhatsAppBranchModal';
 import logoVitasari from '../assets/logoVitasari.jpg';
 
 const INSTAGRAM_URL = 'https://www.instagram.com/vitasaribakery';
-const LINKTREE_URL = 'https://linktr.ee/vitasaribakery';
 
 export default function Footer() {
+  const [isWaPickerOpen, setIsWaPickerOpen] = useState(false);
+
   return (
     <footer className="footer">
       <div className="container footer__inner">
@@ -21,9 +24,13 @@ export default function Footer() {
             <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" aria-label="Instagram Vitasari Bakery">
               <InstagramIcon />
             </a>
-            <a href={LINKTREE_URL} target="_blank" rel="noopener noreferrer" aria-label="Linktree Vitasari Bakery">
+            <button
+              type="button"
+              onClick={() => setIsWaPickerOpen(true)}
+              aria-label="Hubungi Vitasari Bakery lewat WhatsApp"
+            >
               <WhatsAppIcon />
-            </a>
+            </button>
           </div>
         </div>
 
@@ -67,6 +74,8 @@ export default function Footer() {
           <p>Terpercaya sejak 1991</p>
         </div>
       </div>
+
+      <WhatsAppBranchModal isOpen={isWaPickerOpen} onClose={() => setIsWaPickerOpen(false)} />
     </footer>
   );
 }

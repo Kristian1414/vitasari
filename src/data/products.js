@@ -13,6 +13,11 @@
  * - `price` : angka rupiah polos, tanpa titik/koma.
  */
 
+/**
+ * Daftar kategori. Ikonnya tidak didaftarkan di sini melainkan di
+ * src/pages/Home.jsx, karena ikon berupa komponen React sedangkan file ini
+ * sengaja dijaga berisi data saja.
+ */
 export const categories = [
   { id: "semua", label: "Semua Produk" },
   { id: "roti-manis", label: "Roti Manis" },
