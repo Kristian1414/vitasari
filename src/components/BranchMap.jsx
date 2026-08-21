@@ -45,10 +45,13 @@ export default function BranchMap({ selectedId, onSelect }) {
       zoomControl: true,
     });
 
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
+    // Tile CARTO "Voyager": gaya jalan, warna, dan ikon tempatnya paling mirip
+    // Google Maps di antara penyedia tile gratis, dan boleh dipakai tanpa API key.
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+      subdomains: 'abcd',
+      maxZoom: 20,
       attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
     }).addTo(map);
 
     branches.forEach((branch) => {
