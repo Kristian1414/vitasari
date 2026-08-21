@@ -122,3 +122,52 @@ export const SparkleIcon = (props) => (
     <path d="M12 3.5 13.7 9l5.5 1.7-5.5 1.7L12 18l-1.7-5.6L4.8 10.7 10.3 9 12 3.5Z" />
   </svg>
 );
+
+/* ---------- Ikon kategori ---------- */
+/* Enam ikon di bawah cuma dipakai di kartu kategori halaman depan. Bentuknya
+   sengaja dibuat sesederhana mungkin: di kartu, ikonnya tampil sekitar 60
+   piksel, dan garis yang terlalu ramai jadi menyatu pada ukuran segitu. */
+
+/** Roti manis: roti bundar dengan tiga sayatan di punggungnya. */
+export const BunIcon = (props) => (
+  <svg {...base} {...props}>
+    <path d="M3.6 15.4c0-4.3 3.8-7.4 8.4-7.4s8.4 3.1 8.4 7.4c0 1.4-1.1 2.5-2.5 2.5H6.1a2.5 2.5 0 0 1-2.5-2.5Z" />
+    <path d="M8.4 11.9 7 14.1M12 11.3v2.8M15.6 11.9 17 14.1" />
+  </svg>
+);
+
+/** Roti tawar: satu lembar roti tawar, punggungnya membulat. */
+export const SlicedBreadIcon = (props) => (
+  <svg {...base} {...props}>
+    <path d="M7 20v-8.6h-.7a2.3 2.3 0 0 1-.3-4.5C6.4 5.2 8.6 4 12 4s5.6 1.2 6 2.9a2.3 2.3 0 0 1-.3 4.5H17V20Z" />
+    <path d="M7 15.2h10" />
+  </svg>
+);
+
+/** Cake & bolu: kue bertingkat dengan satu ceri di atasnya. */
+export const CakeIcon = (props) => (
+  <svg {...base} {...props}>
+    <path d="M4 20v-6.1c0-1.1.9-2 2-2h12c1.1 0 2 .9 2 2V20Z" />
+    <path d="M4 15.6c1.3 0 1.3 1.4 2.7 1.4s1.3-1.4 2.6-1.4 1.3 1.4 2.7 1.4 1.3-1.4 2.7-1.4 1.3 1.4 2.6 1.4 1.4-1.4 2.7-1.4" />
+    <path d="M12 11.9V9.4" />
+    <circle cx="12" cy="7.7" r="1.7" />
+  </svg>
+);
+
+/** Pastry & pie: pai utuh, lengkap dengan sayatan kisi di kulitnya. */
+export const PieIcon = (props) => (
+  <svg {...base} {...props}>
+    <path d="M3 13.6h18c0 3.4-4 5.9-9 5.9s-9-2.5-9-5.9Z" />
+    <path d="M4.4 13.6C5 10.4 8.2 8 12 8s7 2.4 7.6 5.6" />
+    <path d="M8.9 9.1 10.3 13M15.2 9.1 13.8 13M17.7 11.2l-2.1 1.9" />
+  </svg>
+);
+
+/** Pelengkap: lilin ulang tahun beserta nyalanya. */
+export const CandleIcon = (props) => (
+  <svg {...base} {...props}>
+    <path d="M9.6 20v-8.3h4.8V20" />
+    <path d="M7.6 20h8.8" />
+    <path d="M12 3.4c1.7 1.7 2.5 3 2.5 4.1a2.5 2.5 0 0 1-5 0c0-1.1.8-2.4 2.5-4.1Z" />
+  </svg>
+);

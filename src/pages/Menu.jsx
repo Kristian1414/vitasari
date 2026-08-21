@@ -68,7 +68,7 @@ export default function Menu() {
         <div className="container">
           <div className="menu-toolbar">
             <div className="search-field">
-              <SearchIcon width={18} height={18} />
+              <SearchIcon width={16} height={16} />
               <input
                 type="search"
                 value={keyword}

@@ -6,12 +6,31 @@ import Reveal, { staggerDelay } from "../components/Reveal";
 import {
   ArrowRightIcon,
   BreadIcon,
+  BunIcon,
+  CakeIcon,
+  CandleIcon,
   ClockIcon,
   MapPinIcon,
+  PieIcon,
+  SlicedBreadIcon,
   SparkleIcon,
 } from "../components/Icons";
 import { categories, products } from "../data/products";
 import { assetUrl } from "../utils/assetUrl";
+
+/**
+ * Ikon tiap kategori. Dipisah dari src/data/products.js karena file itu berisi
+ * data murni, sedangkan ini komponen React. Kategori yang belum terdaftar di
+ * sini jatuh ke ikon roti sebagai cadangan.
+ */
+const IKON_KATEGORI = {
+  "roti-manis": BunIcon,
+  "roti-tawar": SlicedBreadIcon,
+  cake: CakeIcon,
+  "jajanan-pasar": BreadIcon,
+  pastry: PieIcon,
+  pelengkap: CandleIcon,
+};
 
 /**
  * Keterangan sertifikat halal.
@@ -68,7 +87,8 @@ export default function Home() {
     <>
       {/* Hero */}
       <section className="hero">
-        {/* Foto latar penuh. Ganti file-nya di public/images/hero-bg.jpg untuk memakai foto Vitasari. */}
+        {/* Foto latar penuh: suasana di dalam toko. Ganti file-nya di
+            public/images/hero-bg.jpeg untuk memakai foto lain. */}
         <div className="hero__bg" aria-hidden="true">
           <img
             src={assetUrl("/images/hero-bg.jpeg")}
@@ -109,7 +129,13 @@ export default function Home() {
 
           <div className="hero__visual">
             <div className="hero__image-frame">
-              <ProductImage src="/images/hero.jpg" alt="Roti Vitasari Bakery" />
+              {/* Potongan persegi dari foto potret aslinya, dipilih supaya cangkir dan roti
+                  depan jatuh utuh di dalam bingkai bulat. Filenya dibuat ulang lewat
+                  `node scripts/buat-hero-lingkaran.cjs`, jangan diedit langsung. */}
+              <ProductImage
+                src="/images/hero-lingkaran.jpeg"
+                alt="Roti coklat Vitasari Bakery di atas talenan kayu, ditemani secangkir susu dan serutan coklat"
+              />
             </div>
           </div>
         </div>
@@ -123,8 +149,7 @@ export default function Home() {
               <span className="eyebrow">Paling dicari</span>
               <h2 className="section__title">Favorit Pelanggan</h2>
               <p className="section__subtitle">
-                Menu yang paling sering habis sebelum sore. Tambahkan ke
-                keranjang, isinya tetap tersimpan walau halaman di-refresh.
+                Menu yang paling sering habis sebelum sore.
               </p>
             </div>
             <Link to="/menu" className="btn btn--ghost">
@@ -159,6 +184,7 @@ export default function Home() {
               const count = products.filter(
                 (product) => product.category === category.id,
               ).length;
+              const Ikon = IKON_KATEGORI[category.id] ?? BreadIcon;
 
               return (
                 <Reveal
@@ -170,13 +196,13 @@ export default function Home() {
                   delay={staggerDelay(index, 80)}
                 >
                   <span className="category-card__icon">
-                    <BreadIcon width={24} height={24} />
+                    <Ikon width={19} height={19} />
                   </span>
                   <h3>{category.label}</h3>
-                  <span>{count} varian</span>
+                  <span className="category-card__count">{count} varian</span>
                   <ArrowRightIcon
-                    width={16}
-                    height={16}
+                    width={14}
+                    height={14}
                     className="category-card__arrow"
                   />
                 </Reveal>

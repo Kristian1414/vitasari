@@ -199,15 +199,19 @@ ol {
   margin-inline: auto;
 }
 
+/* Judul bagian sengaja tidak sebesar judul hero: yang perlu menonjol cuma satu
+   per halaman, dan judul serif sebesar hero terasa berteriak kalau diulang di
+   tiap bagian. */
 .section__title {
-  font-size: clamp(1.9rem, 4vw, 2.7rem);
+  font-size: clamp(1.5rem, 2.6vw, 1.95rem);
   margin-top: 8px;
 }
 
 .section__subtitle {
-  margin-top: 12px;
+  margin-top: 10px;
   max-width: 56ch;
   color: var(--text-muted);
+  font-size: 0.9rem;
 }
 
 .eyebrow {
@@ -225,11 +229,11 @@ ol {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
-  padding: 12px 22px;
+  gap: 8px;
+  padding: 10px 18px;
   border-radius: 999px;
   border: 1px solid transparent;
-  font-size: 0.94rem;
+  font-size: 0.86rem;
   font-weight: 600;
   transition: transform 0.18s ease, background-color 0.18s ease, border-color 0.18s ease,
     color 0.18s ease;
@@ -276,15 +280,15 @@ ol {
 }
 
 .btn--sm {
-  padding: 9px 16px;
-  font-size: 0.86rem;
+  padding: 8px 14px;
+  font-size: 0.79rem;
 }
 
 /* Ukuran ini hanya dipakai dua tombol di hero. Sengaja cuma sedikit lebih besar
    daripada tombol biasa supaya tidak mendominasi hero. */
 .btn--lg {
-  padding: 12px 24px;
-  font-size: 0.95rem;
+  padding: 11px 21px;
+  font-size: 0.88rem;
 }
 
 .btn--block {
@@ -406,9 +410,11 @@ ol {
 
 .navbar__links a {
   position: relative;
-  padding: 9px 16px;
+  /* Jarak dalam ikut dikecilkan bersama ukuran hurufnya, supaya pil di menu
+     yang sedang aktif tetap seimbang dan tidak terlihat kegemukan. */
+  padding: 8px 14px;
   border-radius: 999px;
-  font-size: 0.94rem;
+  font-size: 0.86rem;
   font-weight: 500;
   color: var(--text-muted);
   transition: color 0.18s ease, background-color 0.18s ease;
@@ -571,7 +577,7 @@ ol {
   margin-top: 20px;
   max-width: 52ch;
   color: var(--text-muted);
-  font-size: 1.03rem;
+  font-size: 0.94rem;
 }
 
 .hero__actions {
@@ -594,12 +600,13 @@ ol {
   position: relative;
 }
 
-/* Lingkarannya dibatasi 420px dan dirapatkan ke kanan supaya tidak setinggi
+/* Lingkarannya dibatasi 470px dan dirapatkan ke kanan supaya tidak setinggi
    kolom teks di sebelahnya. Tanpa batas ini ukurannya ikut lebar kolom, di layar
-   lebar bisa lebih dari 500px. */
+   lebar bisa lebih dari 500px. Kolom kanannya sendiri selebar ~524px saat
+   container penuh, jadi angka ini masih menyisakan ruang di kedua sisi. */
 .hero__image-frame {
   position: relative;
-  max-width: 420px;
+  max-width: 470px;
   margin-left: auto;
   aspect-ratio: 1 / 1;
   border-radius: 50%;
@@ -617,12 +624,13 @@ ol {
 
 /* ---------- Product grid & card ---------- */
 
-/* Foto produk berukuran 580 px, jadi kartu selebar ~230 px masih menyisakan
-   cadangan resolusi 2,5x dan tetap tajam di layar ber-DPI tinggi. */
+/* Foto produk berukuran 580 px, jadi kartu selebar ~185 px menyisakan cadangan
+   resolusi lebih dari 3x dan tetap tajam di layar ber-DPI tinggi. Kartu yang
+   lebih kecil juga membuat lebih banyak produk terlihat sekali pandang. */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+  gap: 16px;
 }
 
 .product-card {
@@ -750,16 +758,16 @@ ol {
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding: 16px 18px 18px;
+  padding: 13px 14px 15px;
 }
 
 .product-card__name {
-  font-size: 1.06rem;
+  font-size: 0.95rem;
 }
 
 .product-card__desc {
-  margin-top: 6px;
-  font-size: 0.85rem;
+  margin-top: 5px;
+  font-size: 0.8rem;
   line-height: 1.55;
   color: var(--text-dim);
   display: -webkit-box;
@@ -772,9 +780,9 @@ ol {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 10px;
   margin-top: auto;
-  padding-top: 16px;
+  padding-top: 12px;
 }
 
 .product-card__price {
@@ -784,7 +792,7 @@ ol {
 }
 
 .product-card__price strong {
-  font-size: 1.02rem;
+  font-size: 0.94rem;
   color: var(--tone, var(--accent-soft));
 }
 
@@ -896,31 +904,37 @@ ol {
 
 /* ---------- Category cards ---------- */
 
+/* Lebar kolomnya dibatasi 176 piksel — bukan 1fr — lalu seluruh deretannya
+   dipusatkan. Kalau kolomnya dibiarkan melar mengikuti lebar layar, kartunya
+   ikut membesar dan deretannya menempel ke tepi kiri-kanan halaman. */
 .category-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(132px, 176px));
+  justify-content: center;
+  gap: 16px;
 }
 
-/* Tiap kategori punya warnanya sendiri lewat variabel --tone, supaya deretan
-   kartunya tidak terlihat seragam. */
+/* Tiap kategori punya warnanya sendiri lewat --tone: dipakai untuk garis di
+   sisi atas kartu, alas kotak ikon, dan warna kartu waktu disorot. */
 .category-card {
   --tone: var(--accent-soft);
   --tone-wash: var(--accent-wash);
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 26px 22px;
+  padding: 14px 13px 15px;
   border-radius: var(--radius);
   background: var(--surface);
   border: 1px solid var(--line);
   color: var(--text);
   overflow: hidden;
+  /* Isinya rata kiri walaupun deretan kartunya dipusatkan: nama kategori yang
+     panjang jadi lebih mudah dipindai kalau awal katanya sejajar. */
+  text-align: left;
   transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
 }
 
-/* Garis warna tipis di sisi atas kartu. */
+/* Garis warna tipis di sisi atas kartu, penanda kategori. */
 .category-card::before {
   content: '';
   position: absolute;
@@ -929,6 +943,12 @@ ol {
   right: 0;
   height: 3px;
   background: var(--tone);
+}
+
+.category-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--tone);
+  background: var(--tone-wash);
 }
 
 .category-card--roti-manis {
@@ -961,52 +981,54 @@ ol {
   --tone-wash: var(--plum-wash);
 }
 
-.category-card:hover {
-  transform: translateY(-3px);
-  border-color: var(--tone);
-  background: var(--tone-wash);
-}
-
+/* Ikon kategori duduk di kotak kecil beralas warna kategorinya. Dipakai ikon,
+   bukan foto, supaya keenam kartunya seragam: foto katalog kami resolusinya
+   terbatas dan gayanya berbeda-beda, sedangkan ikon selalu tajam. */
 .category-card__icon {
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
-  margin-bottom: 4px;
-  border-radius: 13px;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
   background: var(--tone-wash);
   color: var(--tone);
+  transition: background-color 0.2s ease;
 }
 
+/* Waktu kartunya disorot, alas kartu berubah jadi warna kategori, jadi kotak
+   ikonnya dibalik jadi putih supaya tetap terpisah dari alasnya. */
 .category-card:hover .category-card__icon {
   background: #fff;
 }
 
-/* Nama kategori memakai font body (Plus Jakarta Sans) supaya lebih mudah dibaca
-   dibanding serif, karena ukurannya kecil dan banyak memakai tanda "&". */
-.category-card h3 {
-  font-family: var(--font-body);
-  font-size: 1.05rem;
-  font-weight: 600;
-  letter-spacing: 0;
-}
-
-.category-card span {
-  font-size: 0.83rem;
-  color: var(--text-dim);
-}
-
+/* Panah penanda bahwa kartunya bisa diklik. */
 .category-card__arrow {
   position: absolute;
-  top: 24px;
-  right: 22px;
+  top: 15px;
+  right: 12px;
   color: var(--text-dim);
   transition: transform 0.2s ease, color 0.2s ease;
 }
 
 .category-card:hover .category-card__arrow {
-  transform: translateX(4px);
+  transform: translateX(3px);
   color: var(--tone);
+}
+
+/* Nama kategori memakai font body (Plus Jakarta Sans) supaya lebih mudah dibaca
+   dibanding serif, karena ukurannya kecil dan banyak memakai tanda "&". */
+.category-card h3 {
+  margin-top: 12px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.category-card__count {
+  margin-top: 2px;
+  font-size: 0.76rem;
+  color: var(--text-dim);
 }
 
 /* ---------- Reason cards ---------- */
@@ -1143,7 +1165,7 @@ ol {
 .page-header {
   --glow: rgba(224, 145, 47, 0.18);
   --tone: var(--accent-soft);
-  padding: 64px 0 40px;
+  padding: 52px 0 34px;
   background:
     radial-gradient(760px 380px at 22% 0%, var(--glow), transparent 64%),
     radial-gradient(620px 320px at 88% 10%, rgba(196, 69, 107, 0.07), transparent 62%),
@@ -1166,14 +1188,15 @@ ol {
 }
 
 .page-header h1 {
-  margin-top: 12px;
-  font-size: clamp(2.1rem, 4.6vw, 3.2rem);
+  margin-top: 10px;
+  font-size: clamp(1.6rem, 3vw, 2.15rem);
 }
 
 .page-header p {
-  margin-top: 14px;
+  margin-top: 12px;
   max-width: 58ch;
   color: var(--text-muted);
+  font-size: 0.9rem;
 }
 
 .page-header .btn {
@@ -1184,8 +1207,8 @@ ol {
 
 .menu-toolbar {
   display: flex;
-  gap: 14px;
-  margin-bottom: 22px;
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
 .search-field {
@@ -1197,14 +1220,15 @@ ol {
 
 .search-field svg {
   position: absolute;
-  left: 16px;
+  left: 14px;
   color: var(--text-dim);
   pointer-events: none;
 }
 
 .search-field input {
   width: 100%;
-  padding: 13px 18px 13px 46px;
+  padding: 10px 16px 10px 40px;
+  font-size: 0.86rem;
   border-radius: 999px;
   background: var(--surface);
   border: 1px solid var(--line-strong);
@@ -1252,9 +1276,21 @@ ol {
   padding-right: 44px;
 }
 
+/* Dua dropdown di halaman menu dibuat lebih kecil daripada kotak isian di
+   formulir halaman lain, karena keduanya berdampingan dengan kolom pencarian
+   dan deretan chip yang juga kecil. Jarak kanannya ditulis utuh, bukan cuma
+   dua nilai, supaya ruang untuk panah tidak ikut terhapus. */
+.sort-field select,
+.filter-field select {
+  padding: 10px 36px 10px 14px;
+  font-size: 0.86rem;
+  background-position: right 13px center;
+  background-size: 14px 14px;
+}
+
 .sort-field select {
   border-radius: 999px;
-  min-width: 215px;
+  min-width: 178px;
   cursor: pointer;
 }
 
@@ -1286,17 +1322,17 @@ ol {
 .chip-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 9px;
-  margin-bottom: 18px;
+  gap: 7px;
+  margin-bottom: 14px;
 }
 
 .chip {
-  padding: 9px 18px;
+  padding: 7px 14px;
   border-radius: 999px;
   border: 1px solid var(--line);
   background: var(--surface);
   color: var(--text-muted);
-  font-size: 0.88rem;
+  font-size: 0.8rem;
   font-weight: 500;
   transition: all 0.18s ease;
 }
@@ -1335,8 +1371,8 @@ ol {
 }
 
 .result-count {
-  margin-bottom: 22px;
-  font-size: 0.86rem;
+  margin-bottom: 16px;
+  font-size: 0.8rem;
   color: var(--text-dim);
 }
 
@@ -1710,18 +1746,22 @@ ol {
   margin-top: 20px;
 }
 
-.footer__socials a {
+.footer__socials a,
+.footer__socials button {
   display: grid;
   place-items: center;
   width: 40px;
   height: 40px;
   border-radius: 12px;
   border: 1px solid var(--footer-line);
+  background: none;
   color: var(--footer-dim);
+  cursor: pointer;
   transition: all 0.18s ease;
 }
 
-.footer__socials a:hover {
+.footer__socials a:hover,
+.footer__socials button:hover {
   border-color: var(--accent);
   color: var(--accent);
 }
@@ -1978,6 +2018,7 @@ ol {
   flex-direction: column;
   border-radius: var(--radius-lg);
   background: var(--bg);
+  color: var(--text);
   border: 1px solid var(--line-strong);
   box-shadow: var(--shadow);
   overflow: hidden;
@@ -2072,6 +2113,81 @@ ol {
   flex-shrink: 0;
   margin-top: 3px;
   color: var(--accent-soft);
+}
+
+.wa-branch-list {
+  display: grid;
+  gap: 10px;
+}
+
+.wa-branch-option {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  transition: border-color 0.18s ease, background-color 0.18s ease;
+}
+
+.wa-branch-option:hover {
+  border-color: var(--accent-soft);
+  background: var(--accent-wash);
+}
+
+.wa-branch-option__icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #25d366;
+  color: #fff;
+}
+
+.wa-branch-option__text {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.wa-branch-option__name {
+  font-weight: 600;
+  font-size: 0.96rem;
+}
+
+.wa-branch-option__meta {
+  display: flex;
+  gap: 7px;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--text-dim);
+}
+
+.wa-branch-option__meta svg {
+  flex-shrink: 0;
+  margin-top: 3px;
+  color: var(--accent-soft);
+}
+
+.wa-branch-option__number {
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--accent);
+}
+
+@media (max-width: 560px) {
+  .wa-branch-option {
+    grid-template-columns: auto 1fr;
+  }
+
+  .wa-branch-option__number {
+    grid-column: 2;
+  }
 }
 
 .field-row {
@@ -2640,8 +2756,8 @@ img.product-image.is-loaded {
   }
 
   .hero__actions .btn--lg {
-    padding: 12px 20px;
-    font-size: 0.9rem;
+    padding: 11px 18px;
+    font-size: 0.84rem;
   }
 
   .product-grid {
@@ -2649,40 +2765,36 @@ img.product-image.is-loaded {
     gap: 14px;
   }
 
-  /* Kartu kategori juga dua kolom, kalau satu kolom kartunya terlihat
-     kebesaran. Jarak dalamnya ikut dirapatkan agar isinya tetap muat. */
+  /* Kartu kategori jadi tiga kolom: kartunya sekarang cuma foto persegi dengan
+     nama di bawahnya, jadi tetap terbaca walau kecil, dan enam kategori pas
+     menjadi dua baris penuh tanpa ada kartu yang tersisa sendirian. */
   .category-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px 10px;
   }
 
   .category-card {
-    padding: 18px 14px;
-    gap: 6px;
-  }
-
-  /* Kalau jumlah kartunya ganjil, kartu terakhir tersisa sendirian di kolom
-     kiri. Kartu itu dibentangkan ke dua kolom lalu dipusatkan, dengan lebar
-     tetap sama seperti kartu lain (setengah lebar dikurangi separuh jarak). */
-  .category-card:last-child:nth-child(odd) {
-    grid-column: 1 / -1;
-    justify-self: center;
-    width: calc(50% - 6px);
+    padding: 12px 10px 13px;
   }
 
   .category-card__icon {
-    width: 38px;
-    height: 38px;
-    border-radius: 11px;
-  }
-
-  .category-card h3 {
-    font-size: 0.96rem;
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
   }
 
   .category-card__arrow {
-    top: 16px;
-    right: 14px;
+    top: 13px;
+    right: 10px;
+  }
+
+  .category-card h3 {
+    margin-top: 9px;
+    font-size: 0.82rem;
+  }
+
+  .category-card__count {
+    font-size: 0.72rem;
   }
 
   .product-card__body {
