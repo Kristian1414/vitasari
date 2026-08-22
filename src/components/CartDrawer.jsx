@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useScrollLock } from '../hooks/useScrollLock';
 import { formatRupiah } from '../utils/format';
 import CheckoutModal from './CheckoutModal';
 import { CloseIcon, TrashIcon, WhatsAppIcon } from './Icons';
@@ -22,23 +23,19 @@ export default function CartDrawer() {
   } = useCart();
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
-  // Kunci scroll halaman selama drawer/modal terbuka, dan tutup dengan tombol Escape.
+  // Kunci scroll halaman selama drawer/modal terbuka.
+  useScrollLock(isCartOpen);
+
+  // Tutup dengan tombol Escape, kecuali kalau modal checkout sedang menimpa drawer.
   useEffect(() => {
     if (!isCartOpen) return undefined;
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
 
     const handleKeyDown = (event) => {
       if (event.key === 'Escape' && !isCheckoutOpen) closeCart();
     };
 
     window.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener('keydown', handleKeyDown);
-    };
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isCartOpen, isCheckoutOpen, closeCart]);
 
   return (
