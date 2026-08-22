@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { branches } from '../data/branches';
+import { useScrollLock } from '../hooks/useScrollLock';
 import { buildWhatsAppUrl } from '../utils/whatsapp';
 import { ClockIcon, CloseIcon, MapPinIcon, WhatsAppIcon } from './Icons';
 
@@ -13,23 +14,19 @@ const buildGreeting = (branch) =>
  * di sini supaya pelanggan tidak perlu keluar situs dulu.
  */
 export default function WhatsAppBranchModal({ isOpen, onClose }) {
-  // Kunci scroll halaman selama pop up terbuka, dan tutup dengan tombol Escape.
+  // Kunci scroll halaman selama pop up terbuka.
+  useScrollLock(isOpen);
+
+  // Tutup dengan tombol Escape.
   useEffect(() => {
     if (!isOpen) return undefined;
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
 
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') onClose();
     };
 
     window.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener('keydown', handleKeyDown);
-    };
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;

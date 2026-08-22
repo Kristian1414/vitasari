@@ -1817,6 +1817,7 @@ ol {
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.28s ease, visibility 0.28s ease;
+  overscroll-behavior: contain;
 }
 
 .drawer-overlay.is-open {
@@ -1901,6 +1902,9 @@ ol {
   flex: 1;
   overflow-y: auto;
   padding: 8px 22px;
+  /* Sama seperti isi modal: guliran berhenti di ujung daftar, tidak diteruskan
+     ke halaman di belakang drawer. */
+  overscroll-behavior: contain;
 }
 
 .cart-item {
@@ -1983,8 +1987,18 @@ ol {
 }
 
 .cart-drawer__total strong {
-  font-family: var(--font-display);
-  font-size: 1.6rem;
+  /* Nominal total sengaja tidak memakai Playfair Display. Angka serif itu
+     ramping dan kontras tebal-tipisnya tinggi, jadi susah dibaca sekilas
+     padahal ini justru angka yang paling dicari pelanggan. Font body jauh
+     lebih tegas, dan `tabular-nums` menyamakan lebar tiap digit supaya
+     angkanya rapi dan tidak "bergoyang" saat jumlah barang berubah. */
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  /* Sedikit lebih kecil dari 1.6rem versi serif: pada ukuran yang sama huruf
+     sans-serif terbaca lebih besar dan berat. */
+  font-size: 1.5rem;
+  letter-spacing: -0.01em;
   color: var(--accent-soft);
 }
 
@@ -2009,6 +2023,7 @@ ol {
   background: rgba(43, 33, 24, 0.52);
   backdrop-filter: blur(4px);
   animation: fade-in 0.2s ease;
+  overscroll-behavior: contain;
 }
 
 .modal {
@@ -2053,6 +2068,9 @@ ol {
   gap: 20px;
   padding: 24px 26px 28px;
   overflow-y: auto;
+  /* Begitu isi modal tergulir sampai mentok, gulirannya berhenti di sini dan
+     tidak diteruskan ke halaman di belakangnya. */
+  overscroll-behavior: contain;
 }
 
 .branch-picker {
