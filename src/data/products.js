@@ -53,7 +53,7 @@ export const products = [
     price: 4300,
     unit: "1 pcs",
     badge: "Best Seller",
-    image: "/images/products/roti-coklat.jpg",
+    image: "/images/products/roti-coklat.jpeg",
   },
   {
     id: "roti-vanila",
@@ -657,7 +657,7 @@ export const products = [
   },
   {
     id: "pizzatos",
-    name: "Pizzatos",
+    name: "Pizza Toast",
     category: "pastry",
     price: 30000,
     unit: "1 bungkus",
