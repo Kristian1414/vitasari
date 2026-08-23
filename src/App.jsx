@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { MotionConfig } from 'framer-motion';
 import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import CartDrawer from './components/CartDrawer';
 import Footer from './components/Footer';
@@ -6,6 +7,7 @@ import Navbar from './components/Navbar';
 import Toast from './components/Toast';
 import { CartIcon } from './components/Icons';
 import { CartProvider, useCart } from './context/CartContext';
+import { QuickViewProvider } from './context/QuickViewContext';
 import { formatRupiah } from './utils/format';
 import About from './pages/About';
 import Branches from './pages/Branches';
@@ -62,25 +64,31 @@ export default function App() {
   const { pathname } = useLocation();
 
   return (
-    <CartProvider>
-      <ScrollToTop />
-      <Navbar />
+    // `reducedMotion="user"` mengikuti setelan "kurangi animasi" di perangkat
+    // pengguna, sejalan dengan aturan prefers-reduced-motion di stylesheet.
+    <MotionConfig reducedMotion="user">
+      <CartProvider>
+        <QuickViewProvider>
+          <ScrollToTop />
+          <Navbar />
 
-      {/* `key` membuat konten dirender ulang tiap pindah halaman, jadi animasi masuknya terulang. */}
-      <main id="konten" key={pathname} className="page-enter">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/menu" element={<Menu />} />
-          <Route path="/cabang" element={<Branches />} />
-          <Route path="/tentang" element={<About />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </main>
+          {/* `key` membuat konten dirender ulang tiap pindah halaman, jadi animasi masuknya terulang. */}
+          <main id="konten" key={pathname} className="page-enter">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/menu" element={<Menu />} />
+              <Route path="/cabang" element={<Branches />} />
+              <Route path="/tentang" element={<About />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </main>
 
-      <Footer />
-      <CartDrawer />
-      <MobileCartBar />
-      <Toast />
-    </CartProvider>
+          <Footer />
+          <CartDrawer />
+          <MobileCartBar />
+          <Toast />
+        </QuickViewProvider>
+      </CartProvider>
+    </MotionConfig>
   );
 }
