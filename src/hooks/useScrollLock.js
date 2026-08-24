@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 
 /**
  * Kunci scroll halaman selama sebuah overlay (pop up / drawer) terbuka.
@@ -11,9 +11,15 @@ import { useEffect } from 'react';
  *
  * Menghilangkan scrollbar juga melebarkan viewport, jadi lebarnya diganti
  * padding supaya konten di belakang pop up tidak melompat ke samping.
+ *
+ * Dipakai useLayoutEffect, bukan useEffect: menukar scrollbar dengan padding
+ * memaksa seluruh halaman dihitung ulang. Kalau itu terjadi setelah frame
+ * pertama tergambar, perhitungan ulangnya jatuh di tengah animasi pop up dan
+ * animasinya tersendat. Dengan useLayoutEffect semuanya beres sebelum Framer
+ * Motion mengukur posisi kartu dan sebelum layar digambar.
  */
 export function useScrollLock(isLocked) {
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!isLocked) return undefined;
 
     const root = document.documentElement;

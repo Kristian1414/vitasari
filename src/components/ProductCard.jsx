@@ -3,6 +3,7 @@ import { useCart } from '../context/CartContext';
 import { useQuickView } from '../context/QuickViewContext';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { formatRupiah } from '../utils/format';
+import { cardLayoutTransition } from '../utils/motion';
 import { productLayoutIds, toBadgeSlug } from '../utils/product';
 import { staggerDelay } from './Reveal';
 import { CheckIcon } from './Icons';
@@ -40,6 +41,7 @@ export default function ProductCard({ product, index = 0, reveal = true }) {
       // Tanpa ref, tidak ada pengamat scroll yang dipasang sama sekali.
       ref={reveal ? revealRef : undefined}
       layoutId={ids.card}
+      transition={cardLayoutTransition}
       className={classes}
       // Lengkung sudut ditulis di style, bukan hanya di CSS, supaya Framer
       // Motion bisa mengoreksinya selama kartu membesar — kalau tidak, sudutnya
@@ -62,7 +64,11 @@ export default function ProductCard({ product, index = 0, reveal = true }) {
         onClick={() => openQuickView(product)}
       />
 
-      <motion.div layoutId={ids.media} className="product-card__media">
+      <motion.div
+        layoutId={ids.media}
+        transition={cardLayoutTransition}
+        className="product-card__media"
+      >
         <ProductImage src={product.image} alt={product.name} />
         {product.badge && (
           <span
@@ -79,18 +85,30 @@ export default function ProductCard({ product, index = 0, reveal = true }) {
       </motion.div>
 
       <div className="product-card__body">
-        <motion.h3 layoutId={ids.name} className="product-card__name">
+        <motion.h3
+          layoutId={ids.name}
+          transition={cardLayoutTransition}
+          className="product-card__name"
+        >
           {product.name}
         </motion.h3>
         {product.description && <p className="product-card__desc">{product.description}</p>}
 
         <div className="product-card__footer">
-          <motion.div layoutId={ids.price} className="product-card__price">
+          <motion.div
+            layoutId={ids.price}
+            transition={cardLayoutTransition}
+            className="product-card__price"
+          >
             <strong>{formatRupiah(product.price)}</strong>
             <span>/ {product.unit}</span>
           </motion.div>
 
-          <motion.div layoutId={ids.action} className="product-card__action">
+          <motion.div
+            layoutId={ids.action}
+            transition={cardLayoutTransition}
+            className="product-card__action"
+          >
             {inCart ? (
               <QtyStepper
                 qty={qty}

@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useCart } from '../context/CartContext';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { formatRupiah } from '../utils/format';
+import { cardLayoutTransition, cardMotion } from '../utils/motion';
 import { categoryLabel, productLayoutIds, toBadgeSlug } from '../utils/product';
 import { CloseIcon } from './Icons';
 import ProductImage from './ProductImage';
@@ -16,6 +17,10 @@ import QtyStepper from './QtyStepper';
  * `layoutId` yang sama dengan yang ada di kartu grid (lihat productLayoutIds),
  * jadi Framer Motion menggeser dan membesarkan elemen aslinya ke posisi baru.
  * Kartu di grid otomatis disembunyikan selama pop up terbuka.
+ *
+ * Waktu dan kurva geraknya diambil dari utils/motion supaya sama persis dengan
+ * yang dipakai kartu di grid — kalau keduanya berbeda, elemen yang sama akan
+ * ditarik dua kecepatan sekaligus dan gerakannya patah di tengah jalan.
  */
 export default function ProductQuickView({ product, onClose }) {
   const { addItem, increment, decrement, updateQty, getQty } = useCart();
@@ -50,6 +55,7 @@ export default function ProductQuickView({ product, onClose }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={cardMotion}
           />
         )}
       </AnimatePresence>
@@ -73,7 +79,11 @@ export default function ProductQuickView({ product, onClose }) {
                 layout
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                exit={{ opacity: 0, transition: { duration: 0.05 } }}
+                exit={{ opacity: 0, transition: { duration: 0.08 } }}
+                transition={{
+                  layout: cardMotion,
+                  opacity: { duration: 0.24, delay: 0.26, ease: cardMotion.ease },
+                }}
                 className="quick-view__close"
                 onClick={onClose}
                 aria-label="Tutup detail produk"
@@ -83,11 +93,16 @@ export default function ProductQuickView({ product, onClose }) {
 
               <motion.div
                 layoutId={ids.card}
+                transition={cardLayoutTransition}
                 className={`quick-view__card product-card--cat-${product.category}`}
                 style={{ borderRadius: 24 }}
               >
-                <motion.div layoutId={ids.media} className="quick-view__media">
-                  <ProductImage src={product.image} alt={product.name} />
+                <motion.div
+                  layoutId={ids.media}
+                  transition={cardLayoutTransition}
+                  className="quick-view__media"
+                >
+                  <ProductImage src={product.image} alt={product.name} eager />
                   {product.badge && (
                     <span
                       className={`product-card__badge product-card__badge--${toBadgeSlug(product.badge)}`}
@@ -102,18 +117,27 @@ export default function ProductQuickView({ product, onClose }) {
                     <div className="quick-view__headings">
                       <motion.h3
                         layoutId={ids.name}
+                        transition={cardLayoutTransition}
                         id="quick-view-title"
                         className="quick-view__name"
                       >
                         {product.name}
                       </motion.h3>
-                      <motion.div layoutId={ids.price} className="quick-view__price">
+                      <motion.div
+                        layoutId={ids.price}
+                        transition={cardLayoutTransition}
+                        className="quick-view__price"
+                      >
                         <strong>{formatRupiah(product.price)}</strong>
                         <span>/ {product.unit}</span>
                       </motion.div>
                     </div>
 
-                    <motion.div layoutId={ids.action} className="quick-view__action">
+                    <motion.div
+                      layoutId={ids.action}
+                      transition={cardLayoutTransition}
+                      className="quick-view__action"
+                    >
                       {qty > 0 ? (
                         <QtyStepper
                           qty={qty}
@@ -138,7 +162,11 @@ export default function ProductQuickView({ product, onClose }) {
                     layout
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
+                    exit={{ opacity: 0, transition: { duration: 0.08 } }}
+                    transition={{
+                      layout: cardMotion,
+                      opacity: { duration: 0.28, delay: 0.22, ease: cardMotion.ease },
+                    }}
                     className="quick-view__content"
                   >
                     <div className="quick-view__chips">

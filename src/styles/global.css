@@ -695,6 +695,19 @@ ol {
   transform: scale(1.05);
 }
 
+/* Kotak foto kartu yang sedang disorot dinaikkan ke lapisan gambarnya sendiri.
+   Kartu yang disorot itulah yang sebentar lagi diklik dan membesar jadi pop up,
+   dan fotonya beresolusi tinggi. Tanpa lapisan sendiri, browser menggambar
+   ulang foto sebesar itu di SETIAP frame animasi pembesaran; dengan lapisan
+   sendiri fotonya cukup digambar sekali lalu diperbesar oleh kartu grafis.
+   Sengaja hanya saat kartunya disorot atau sedang ditekan (di layar sentuh
+   tidak ada sorot), supaya tidak semua foto di grid ikut memakan
+   memori kartu grafis sekaligus. */
+.product-card:hover .product-card__media,
+.product-card:active .product-card__media {
+  will-change: transform, opacity;
+}
+
 /* Warna badge dibedakan per jenis supaya grid produk tidak terlihat seragam. */
 .product-card__badge {
   --tone: var(--accent-soft);
@@ -852,6 +865,10 @@ ol {
   z-index: 88;
   background: rgba(43, 33, 24, 0.42);
   backdrop-filter: blur(3px);
+  /* Latar buram ini memudar masuk bersamaan dengan kartu yang membesar. Beri
+     tahu browser sejak awal supaya lapisannya disiapkan sebelum animasi mulai,
+     bukan di tengah jalan. */
+  will-change: opacity;
 }
 
 .quick-view {
@@ -890,6 +907,9 @@ ol {
   min-height: 180px;
   aspect-ratio: 1 / 1;
   background: var(--surface-2);
+  /* Sama seperti di kartu grid: foto besar ini punya lapisan gambar sendiri,
+     jadi selama kartunya membesar fotonya tidak digambar ulang tiap frame. */
+  will-change: transform, opacity;
 }
 
 /* Di pop up fotonya dipakai `contain`, bukan `cover`: yang dicari pengguna
