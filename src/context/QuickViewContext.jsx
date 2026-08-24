@@ -17,20 +17,19 @@ export function QuickViewProvider({ children }) {
   const openQuickView = useCallback((product) => setActiveProduct(product), []);
   const closeQuickView = useCallback(() => setActiveProduct(null), []);
 
-  // `activeProduct` WAJIB ikut di sini, jangan dikeluarkan demi menghemat
-  // render. Justru render ulang itulah yang menjalankan animasi kartu membesar.
+  // Isinya hanya kedua fungsi ini, dan keduanya tidak pernah berganti — jadi
+  // nilai context-nya tidak pernah berubah dan kartu produk tidak ikut dirender
+  // ulang setiap pop up dibuka atau ditutup. Di halaman Menu yang berisi 84
+  // kartu, itu 84 render yang dihemat pada saat paling sibuk.
   //
-  // Karena nilai context ini berubah setiap pop up dibuka/ditutup, SEMUA kartu
-  // produk ikut dirender ulang. Saat itulah Framer Motion mengukur ulang posisi
-  // tiap kartu dan menyadari kartu ini sekarang "pindah" ke tengah layar, lalu
-  // menganimasikannya. Pernah dicoba mengeluarkan `activeProduct` dari sini
-  // (produk aktif dikirim lewat prop saja) supaya kartu tidak ikut dirender:
-  // hasilnya kartu di grid tidak lagi ikut serta, tidak ada yang perlu
-  // dianimasikan, dan pop up-nya melompat ke posisi akhir dalam satu frame —
-  // terlihat seperti kartu yang tiba-tiba jatuh dari atas, bukan membesar.
+  // Dulu `activeProduct` sempat harus ikut dititipkan di sini: animasi lama
+  // membesarkan kartu grid jadi pop up, dan animasi layout Framer Motion baru
+  // berjalan kalau kartunya ikut dirender ulang. Animasi itu sudah diganti pop
+  // up biasa yang tidak menyentuh kartu grid sama sekali, jadi keterikatan itu
+  // hilang. Produk yang aktif cukup dikirim lewat prop ke pop up-nya.
   const value = useMemo(
-    () => ({ activeProduct, openQuickView, closeQuickView }),
-    [activeProduct, openQuickView, closeQuickView],
+    () => ({ openQuickView, closeQuickView }),
+    [openQuickView, closeQuickView],
   );
 
   return (

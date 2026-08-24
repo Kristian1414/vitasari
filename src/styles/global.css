@@ -695,19 +695,6 @@ ol {
   transform: scale(1.05);
 }
 
-/* Kotak foto kartu yang sedang disorot dinaikkan ke lapisan gambarnya sendiri.
-   Kartu yang disorot itulah yang sebentar lagi diklik dan membesar jadi pop up,
-   dan fotonya beresolusi tinggi. Tanpa lapisan sendiri, browser menggambar
-   ulang foto sebesar itu di SETIAP frame animasi pembesaran; dengan lapisan
-   sendiri fotonya cukup digambar sekali lalu diperbesar oleh kartu grafis.
-   Sengaja hanya saat kartunya disorot atau sedang ditekan (di layar sentuh
-   tidak ada sorot), supaya tidak semua foto di grid ikut memakan
-   memori kartu grafis sekaligus. */
-.product-card:hover .product-card__media,
-.product-card:active .product-card__media {
-  will-change: transform, opacity;
-}
-
 /* Warna badge dibedakan per jenis supaya grid produk tidak terlihat seragam. */
 .product-card__badge {
   --tone: var(--accent-soft);
@@ -872,9 +859,8 @@ ol {
      lapisan gelap 52% nyaris tidak terlihat. Kepekatannya dinaikkan sedikit
      (dari 42%) sebagai gantinya. */
   background: rgba(43, 33, 24, 0.52);
-  /* Latar ini memudar masuk bersamaan dengan kartu yang membesar. Beri tahu
-     browser sejak awal supaya lapisannya disiapkan sebelum animasi mulai,
-     bukan di tengah jalan. */
+  /* Beri tahu browser sejak awal supaya lapisan untuk memudarnya disiapkan
+     sebelum animasi mulai, bukan di tengah jalan. */
   will-change: opacity;
 }
 
@@ -894,6 +880,10 @@ ol {
 }
 
 .quick-view__card {
+  /* Lengkung sudutnya dulu ditulis di style inline supaya Framer Motion bisa
+     mengoreksinya selama kartu membesar. Animasi itu sudah tidak ada, jadi
+     nilainya kembali ke CSS. */
+  border-radius: var(--radius-lg);
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -914,9 +904,6 @@ ol {
   min-height: 180px;
   aspect-ratio: 1 / 1;
   background: var(--surface-2);
-  /* Sama seperti di kartu grid: foto besar ini punya lapisan gambar sendiri,
-     jadi selama kartunya membesar fotonya tidak digambar ulang tiap frame. */
-  will-change: transform, opacity;
 }
 
 /* Di pop up fotonya dipakai `contain`, bukan `cover`: yang dicari pengguna
@@ -1002,56 +989,17 @@ ol {
   color: var(--tone, var(--accent-soft));
 }
 
-/* Di layar lebar, tinggi layar yang jadi batas — bukan lebarnya. Karena itu
-   fotonya dipindah ke samping keterangan: tingginya bisa memakai hampir
-   seluruh tinggi layar, dan karena foto katalog berbentuk persegi, lebarnya
-   ikut membesar tanpa ada bagian yang terpotong. */
-@media (min-width: 900px) {
-  .quick-view__frame {
-    width: auto;
-  }
+/* Pop up detail sengaja memakai SATU tata letak di semua ukuran layar: foto di
+   atas, keterangan di bawah.
 
-  .quick-view__card {
-    flex-direction: row;
-    /* Tinggi harus pasti supaya kotak foto persegi bisa menghitung lebarnya.
-       `94vw - 360px` menjaga kartu tetap muat saat layarnya lebar tanggung. */
-    height: min(90vh, 680px, calc(94vw - 360px));
-    max-height: none;
-    width: auto;
-  }
+   Dulu ada varian khusus layar lebar (>= 900px) yang menaruh foto berdampingan
+   dengan keterangan, supaya fotonya bisa setinggi layar. Varian itu dibuang.
+   Tidak ada satu pun dari 84 produk yang mengisi field `description`, jadi kolom
+   keterangan di sampingnya hanya berisi nama, harga, tombol, dan dua chip --
+   diukur cuma 233px -- di dalam ruang setinggi fotonya. Sisanya menganga kosong.
 
-  .quick-view__media {
-    height: 100%;
-    min-height: 0;
-  }
-
-  .quick-view__body {
-    flex: 0 0 360px;
-    justify-content: center;
-    gap: 18px;
-    padding: 24px 26px;
-  }
-
-  .quick-view__head {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 14px;
-  }
-
-  .quick-view__name {
-    font-size: 1.45rem;
-  }
-
-  .quick-view__price strong {
-    font-size: 1.2rem;
-  }
-
-  .quick-view__action .btn,
-  .quick-view__action .qty-stepper {
-    width: 100%;
-    justify-content: center;
-  }
-}
+   Dengan menumpuk ke bawah, tinggi kartu mengikuti isinya, jadi tidak ada ruang
+   sisa sama sekali. Sudah diukur: pada tata letak ini ruang kosongnya 0px. */
 
 .quick-view__close {
   position: absolute;

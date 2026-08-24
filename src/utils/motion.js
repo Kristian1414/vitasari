@@ -1,53 +1,35 @@
 /**
- * Satu kurva gerak untuk perpindahan kartu produk <-> pop up detail.
+ * Waktu dan kurva gerak untuk pop up detail produk.
  *
- * Yang menentukan rasa "lemot" bukan panjang durasinya, melainkan berapa lama
- * ekor perlambatannya. Dua kurva yang pernah dipakai di sini:
+ * Pop up ini sebelumnya memakai animasi layout bersama (layoutId): kartu di
+ * grid benar-benar bergerak dan membesar ke tengah layar. Konsep itu ditinggal
+ * karena geraknya panjang dan berat — setiap kali dibuka, seluruh kartu di
+ * halaman harus dirender dan diukur ulang lebih dulu, dan yang dianimasikan
+ * adalah dua kartu berisi foto beresolusi tinggi sekaligus.
  *
- *   bawaan Framer Motion  0,45s  cubic-bezier(0.4, 0, 0.1, 1)
- *     -> 95% gerakan selesai di 313ms, sisa 137ms untuk 5% terakhir
- *   kurva lembar geser iOS 0,50s cubic-bezier(0.32, 0.72, 0, 1)
- *     -> 95% gerakan selesai di 242ms, sisa 258ms untuk 5% terakhir
+ * Sekarang munculnya seperti pop up pada umumnya: memudar masuk di tengah layar
+ * sambil sedikit membesar. Tidak ada yang perlu diukur, dan yang bergerak cuma
+ * satu elemen.
  *
- * Yang kedua menghabiskan LEBIH DARI SEPARUH durasinya untuk merayapi 5%
- * terakhir. Di layar, kartunya terlihat sampai lalu menggantung bergerak
- * sepersekian piksel per frame — persis seperti animasi yang nge-lag.
- *
- * Kurva di bawah berangkat cepat begitu diklik lalu berhenti tanpa ekor
- * panjang: 95% selesai di 237ms, sisa 123ms. Nilainya sengaja sama dengan
- * kurva animasi "muncul saat di-scroll" di global.css, supaya seluruh situs
- * memakai satu bahasa gerak.
+ * Kurvanya sama dengan animasi "muncul saat di-scroll" di global.css, supaya
+ * seluruh situs memakai satu bahasa gerak.
  */
-export const cardMotion = {
-  duration: 0.36,
-  ease: [0.22, 0.61, 0.36, 1],
+const EASE = [0.22, 0.61, 0.36, 1];
+
+/**
+ * Bingkai pop up. Durasinya pendek dengan sengaja: pop up yang muncul setelah
+ * diklik harus terasa langsung menyahut, bukan diantar pelan-pelan.
+ */
+export const popupMotion = {
+  duration: 0.2,
+  ease: EASE,
 };
 
 /**
- * Pegas bawaan Framer Motion untuk properti transform (mis. `y`), disalin apa
- * adanya dari framer-motion/dist. Lihat catatan `default` di bawah — inilah
- * yang harus dikembalikan secara manual.
+ * Latar gelap. Sedikit lebih cepat daripada bingkainya supaya layar sudah
+ * meredup lebih dulu, jadi pop up-nya muncul di atas latar yang sudah tenang.
  */
-const springDefault = { type: 'spring', stiffness: 500, damping: 25, restSpeed: 10 };
-
-/**
- * Dipasang di SETIAP elemen yang ikut berpindah (kartu, foto, nama, harga,
- * tombol) — di grid maupun di pop up.
- *
- * Semua elemen memakai kurva dan durasi yang sama persis, jadi mereka bergerak
- * serempak sebagai satu benda. Kalau tiap elemen punya waktunya sendiri, mata
- * menangkapnya sebagai beberapa gerakan yang saling menyusul.
- *
- * `default` WAJIB ada dan tidak boleh dihapus. Saat mencari transisi untuk
- * sebuah nilai, Framer Motion mengambil `transition[nama]`, lalu
- * `transition.default`, lalu — kalau keduanya kosong — seluruh objek ini apa
- * adanya. Objek yang isinya cuma { layout } tetap dianggap "sudah diatur", jadi
- * pegas bawaannya tidak lagi dipasang, dan nilai itu jatuh ke tween 0,3 detik.
- * Akibatnya kartu yang terangkat saat disorot (`whileHover` y: -4) turun-naik
- * melayang selama 0,3 detik, bukan langsung mengikuti kursor seperti semestinya
- * — paling kelihatan tepat setelah pop up ditutup dan kartunya mendarat.
- */
-export const cardLayoutTransition = {
-  layout: cardMotion,
-  default: springDefault,
+export const backdropMotion = {
+  duration: 0.16,
+  ease: EASE,
 };
