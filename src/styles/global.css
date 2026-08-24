@@ -863,10 +863,17 @@ ol {
   position: fixed;
   inset: 0;
   z-index: 88;
-  background: rgba(43, 33, 24, 0.42);
-  backdrop-filter: blur(3px);
-  /* Latar buram ini memudar masuk bersamaan dengan kartu yang membesar. Beri
-     tahu browser sejak awal supaya lapisannya disiapkan sebelum animasi mulai,
+  /* Sengaja TANPA backdrop-filter. Latar ini menutupi seluruh layar, jadi
+     memburamkannya memaksa browser menghitung ulang buram sebesar layar penuh
+     di setiap frame — tepat saat kartu besar berisi foto sedang dianimasikan di
+     atasnya. Diukur di Chrome (CPU diperlambat 2x, 7 kartu, jendela rekaman
+     650ms): dengan blur 3px hanya 75 frame yang sempat digambar, tanpa blur 116
+     frame. Buramnya memangkas laju frame hampir setengah, padahal di balik
+     lapisan gelap 52% nyaris tidak terlihat. Kepekatannya dinaikkan sedikit
+     (dari 42%) sebagai gantinya. */
+  background: rgba(43, 33, 24, 0.52);
+  /* Latar ini memudar masuk bersamaan dengan kartu yang membesar. Beri tahu
+     browser sejak awal supaya lapisannya disiapkan sebelum animasi mulai,
      bukan di tengah jalan. */
   will-change: opacity;
 }

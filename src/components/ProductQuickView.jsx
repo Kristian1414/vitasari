@@ -82,7 +82,7 @@ export default function ProductQuickView({ product, onClose }) {
                 exit={{ opacity: 0, transition: { duration: 0.08 } }}
                 transition={{
                   layout: cardMotion,
-                  opacity: { duration: 0.24, delay: 0.26, ease: cardMotion.ease },
+                  opacity: { duration: 0.18, delay: 0.17, ease: cardMotion.ease },
                 }}
                 className="quick-view__close"
                 onClick={onClose}
@@ -165,7 +165,7 @@ export default function ProductQuickView({ product, onClose }) {
                     exit={{ opacity: 0, transition: { duration: 0.08 } }}
                     transition={{
                       layout: cardMotion,
-                      opacity: { duration: 0.28, delay: 0.22, ease: cardMotion.ease },
+                      opacity: { duration: 0.2, delay: 0.14, ease: cardMotion.ease },
                     }}
                     className="quick-view__content"
                   >

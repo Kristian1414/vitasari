@@ -1,19 +1,26 @@
 /**
  * Satu kurva gerak untuk perpindahan kartu produk <-> pop up detail.
  *
- * Tanpa ini Framer Motion memakai bawaannya sendiri untuk animasi layout:
- * 0,45 detik dengan kurva cubic-bezier(0.4, 0, 0.1, 1). Kurva itu berangkat
- * pelan lalu menahan di tengah, jadi pembesaran kartunya terasa "berat" di awal
- * dan seperti tersendat sebelum berhenti.
+ * Yang menentukan rasa "lemot" bukan panjang durasinya, melainkan berapa lama
+ * ekor perlambatannya. Dua kurva yang pernah dipakai di sini:
  *
- * Gantinya kurva yang dipakai lembar geser iOS: berangkat langsung begitu
- * diklik, lalu melambat panjang sampai benar-benar berhenti (kemiringannya nol
- * di ujung, jadi tidak ada patahan di akhir gerakan). Durasinya sedikit lebih
- * panjang supaya perlambatannya terasa, bukan cuma lewat.
+ *   bawaan Framer Motion  0,45s  cubic-bezier(0.4, 0, 0.1, 1)
+ *     -> 95% gerakan selesai di 313ms, sisa 137ms untuk 5% terakhir
+ *   kurva lembar geser iOS 0,50s cubic-bezier(0.32, 0.72, 0, 1)
+ *     -> 95% gerakan selesai di 242ms, sisa 258ms untuk 5% terakhir
+ *
+ * Yang kedua menghabiskan LEBIH DARI SEPARUH durasinya untuk merayapi 5%
+ * terakhir. Di layar, kartunya terlihat sampai lalu menggantung bergerak
+ * sepersekian piksel per frame — persis seperti animasi yang nge-lag.
+ *
+ * Kurva di bawah berangkat cepat begitu diklik lalu berhenti tanpa ekor
+ * panjang: 95% selesai di 237ms, sisa 123ms. Nilainya sengaja sama dengan
+ * kurva animasi "muncul saat di-scroll" di global.css, supaya seluruh situs
+ * memakai satu bahasa gerak.
  */
 export const cardMotion = {
-  duration: 0.5,
-  ease: [0.32, 0.72, 0, 1],
+  duration: 0.36,
+  ease: [0.22, 0.61, 0.36, 1],
 };
 
 /**
