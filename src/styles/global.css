@@ -2734,6 +2734,18 @@ ol {
   }
 }
 
+/* Menutup jalur penyimpanan foto yang tidak lewat JavaScript.
+   `-webkit-touch-callout` mematikan menu "Save Image" yang muncul saat foto
+   ditahan-tekan di iPhone/iPad -- di sana tidak ada peristiwa contextmenu, jadi
+   utils/protectImages.js saja tidak cukup. `-webkit-user-drag` menutup jalur
+   seret-lepas di Safari. Keduanya penghalang, bukan pengaman: lihat catatan
+   panjang di utils/protectImages.js. */
+img {
+  -webkit-touch-callout: none;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
 /* ---------- Foto muncul perlahan setelah selesai dimuat ---------- */
 
 img.product-image {

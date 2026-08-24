@@ -2,6 +2,19 @@
   RewriteEngine On
   RewriteBase /
 
+  # --- Tolak hotlink gambar --------------------------------------------------
+  # Mencegah situs lain memasang foto produk Vitasari langsung dari server ini.
+  # Selain memakai kuota Anda, foto itu jadi tampil di halaman mereka seolah
+  # miliknya. Yang ditolak hanya permintaan yang datang DARI halaman situs lain;
+  # permintaan tanpa referer sengaja dibiarkan lewat, karena itulah yang dipakai
+  # Googlebot, pratinjau tautan WhatsApp/Facebook, dan orang yang membuka alamat
+  # fotonya langsung. Menutupnya juga akan membuat foto Anda hilang dari Google
+  # Images dan pratinjau tautan jadi polos.
+  RewriteCond %{HTTP_REFERER} !^$
+  RewriteCond %{HTTP_REFERER} !^https?://([a-z0-9-]+\.)?vitasari\.id [NC]
+  RewriteRule \.(jpe?g|png|gif|webp|svg)$ - [F,NC]
+
+  # --- Rute SPA --------------------------------------------------------------
   # File dan folder yang benar-benar ada dilayani apa adanya.
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
