@@ -4,6 +4,7 @@ import { Link, Route, Routes, useLocation } from 'react-router-dom';
 import CartDrawer from './components/CartDrawer';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
+import Seo from './components/Seo';
 import Toast from './components/Toast';
 import { CartIcon } from './components/Icons';
 import { CartProvider, useCart } from './context/CartContext';
@@ -69,6 +70,7 @@ export default function App() {
     <MotionConfig reducedMotion="user">
       <CartProvider>
         <QuickViewProvider>
+          <Seo />
           <ScrollToTop />
           <Navbar />
 
