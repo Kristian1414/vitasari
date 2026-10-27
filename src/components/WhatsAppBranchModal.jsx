@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
 import { branches } from '../data/branches';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { buildWhatsAppUrl } from '../utils/whatsapp';
+import BranchStatus from './BranchStatus';
 import { ClockIcon, CloseIcon, MapPinIcon, WhatsAppIcon } from './Icons';
 
 /** Sapaan awal yang sudah terisi di kolom chat supaya pelanggan tinggal tekan kirim. */
@@ -16,6 +18,7 @@ const buildGreeting = (branch) =>
 export default function WhatsAppBranchModal({ isOpen, onClose }) {
   // Kunci scroll halaman selama pop up terbuka.
   useScrollLock(isOpen);
+  const modalRef = useFocusTrap(isOpen);
 
   // Tutup dengan tombol Escape.
   useEffect(() => {
@@ -41,7 +44,7 @@ export default function WhatsAppBranchModal({ isOpen, onClose }) {
         if (event.target === event.currentTarget) onClose();
       }}
     >
-      <div className="modal">
+      <div className="modal" ref={modalRef}>
         <header className="modal__header">
           <div>
             <h2 id="wa-branch-title">Hubungi Lewat WhatsApp</h2>
@@ -76,6 +79,7 @@ export default function WhatsAppBranchModal({ isOpen, onClose }) {
                     <ClockIcon width={14} height={14} />
                     {branch.hours}
                   </span>
+                  <BranchStatus hours={branch.hours} />
                 </span>
                 <span className="wa-branch-option__number">{branch.waDisplay}</span>
               </a>

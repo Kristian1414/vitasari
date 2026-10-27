@@ -1,4 +1,4 @@
-import { useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { PAGE_META, SITE_IMAGE, SITE_NAME, SITE_URL } from '../data/site';
 
@@ -10,10 +10,17 @@ import { PAGE_META, SITE_IMAGE, SITE_NAME, SITE_URL } from '../data/site';
  * beranda. Di hasil pencarian keempatnya jadi nyaris tidak terbedakan, dan
  * Google cenderung hanya menampilkan salah satu.
  *
- * Nilai bawaan yang statis tetap ditulis di index.html supaya perayap yang
- * tidak menjalankan JavaScript tetap mendapat judul dan deskripsi yang benar
- * untuk beranda. Komponen ini menimpanya begitu rute berganti.
+ * Tiap halaman hasil build sudah membawa <head> miliknya sendiri, ditulis saat
+ * prerender oleh scripts/seo-head.js. Jadi perayap yang tidak menjalankan
+ * JavaScript sudah mendapat judul dan deskripsi yang benar untuk halaman yang
+ * dibukanya. Komponen ini yang menimpanya saat pengunjung berpindah halaman
+ * tanpa memuat ulang -- satu-satunya saat <head> tidak ikut berganti sendiri.
  */
+
+// Saat prerender di Node tidak ada <head> untuk disentuh, dan React memperingatkan
+// bahwa useLayoutEffect tidak berjalan di server. Di sana useEffect dipakai --
+// sama-sama tidak jalan, tapi tanpa peringatan yang mengotori keluaran build.
+const useLayoutEffectIsomorfik = typeof document === 'undefined' ? useEffect : useLayoutEffect;
 
 /** Cari tag yang sudah ada di <head>, atau buatkan kalau belum ada. */
 const upsertTag = (selector, buatTag) => {
@@ -46,11 +53,16 @@ const setMetaProperty = (property, content) => {
 };
 
 export default function Seo() {
-  const { pathname } = useLocation();
+  const lokasi = useLocation();
+
+  // "/menu/" dan "/menu" halaman yang sama. Tanpa dirapikan, alamat dengan
+  // garis miring di akhir tidak ketemu di PAGE_META, lalu halaman yang sah
+  // ikut ditandai `noindex` seperti halaman 404.
+  const pathname = lokasi.pathname.replace(/(.)\/+$/, '$1');
 
   // useLayoutEffect, bukan useEffect: judul tab sebaiknya sudah berganti pada
   // frame yang sama dengan tampilnya halaman baru, bukan sekejap setelahnya.
-  useLayoutEffect(() => {
+  useLayoutEffectIsomorfik(() => {
     const meta = PAGE_META[pathname];
 
     // `pathname` sudah bersih dari base path Vite, jadi alamat kanoniknya tetap
@@ -79,7 +91,7 @@ export default function Seo() {
       return;
     }
 
-    setMetaName('robots', 'index, follow');
+    setMetaName('robots', 'index, follow, max-image-preview:large, max-snippet:-1');
 
     document.title = meta.title;
     setMetaName('description', meta.description);

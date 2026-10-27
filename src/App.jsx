@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
 import { MotionConfig } from 'framer-motion';
-import { Link, Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
+import BackToTop from './components/BackToTop';
 import CartDrawer from './components/CartDrawer';
 import Footer from './components/Footer';
 import Navbar from './components/Navbar';
+import Preloader from './components/Preloader';
 import Seo from './components/Seo';
 import Toast from './components/Toast';
 import { CartIcon } from './components/Icons';
@@ -11,9 +13,11 @@ import { CartProvider, useCart } from './context/CartContext';
 import { QuickViewProvider } from './context/QuickViewContext';
 import { formatRupiah } from './utils/format';
 import About from './pages/About';
+import BranchDetail from './pages/BranchDetail';
 import Branches from './pages/Branches';
 import Home from './pages/Home';
 import Menu from './pages/Menu';
+import NotFound from './pages/NotFound';
 
 /** Selalu mulai dari atas halaman setiap kali route berganti. */
 function ScrollToTop() {
@@ -24,21 +28,6 @@ function ScrollToTop() {
   }, [pathname]);
 
   return null;
-}
-
-function NotFound() {
-  return (
-    <section className="page-header">
-      <div className="container">
-        <span className="eyebrow">404</span>
-        <h1>Halaman Tidak Ditemukan</h1>
-        <p>Sepertinya halaman yang kamu cari sudah habis seperti roti sore hari.</p>
-        <Link to="/" className="btn btn--primary">
-          Kembali ke Beranda
-        </Link>
-      </div>
-    </section>
-  );
 }
 
 /** Bar checkout yang menempel di bawah layar HP saat keranjang terisi. */
@@ -72,14 +61,22 @@ export default function App() {
         <QuickViewProvider>
           <Seo />
           <ScrollToTop />
+          <Preloader />
+          {/* Tautan tersembunyi yang muncul saat ditekan Tab pertama kali:
+              pengguna keyboard dan pembaca layar bisa langsung melompati
+              navigasi ke isi halaman. */}
+          <a href="#konten" className="skip-link">
+            Lewati ke konten utama
+          </a>
           <Navbar />
 
           {/* `key` membuat konten dirender ulang tiap pindah halaman, jadi animasi masuknya terulang. */}
-          <main id="konten" key={pathname} className="page-enter">
+          <main id="konten" key={pathname} className="page-enter" tabIndex={-1}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/menu" element={<Menu />} />
               <Route path="/cabang" element={<Branches />} />
+              <Route path="/cabang/:id" element={<BranchDetail />} />
               <Route path="/tentang" element={<About />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
@@ -88,6 +85,7 @@ export default function App() {
           <Footer />
           <CartDrawer />
           <MobileCartBar />
+          <BackToTop />
           <Toast />
         </QuickViewProvider>
       </CartProvider>

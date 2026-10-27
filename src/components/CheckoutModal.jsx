@@ -1,9 +1,11 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { branches } from '../data/branches';
 import { useCart } from '../context/CartContext';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { formatRupiah } from '../utils/format';
 import { buildOrderMessage, buildWhatsAppUrl } from '../utils/whatsapp';
+import BranchStatus from './BranchStatus';
 import { CheckIcon, ClockIcon, CloseIcon, MapPinIcon, WhatsAppIcon } from './Icons';
 
 const ORDER_TYPES = ['Ambil di toko (pick up)', 'Diantar (ojek online / kurir)'];
@@ -23,6 +25,8 @@ export default function CheckoutModal({ isOpen, onClose }) {
   const [note, setNote] = useState('');
   const [error, setError] = useState('');
   const [isSent, setIsSent] = useState(false);
+  const modalRef = useFocusTrap(isOpen);
+  const pickerRef = useRef(null);
 
   const selectedBranch = useMemo(
     () => branches.find((branch) => branch.id === profile.branchId) || null,
@@ -52,6 +56,11 @@ export default function CheckoutModal({ isOpen, onClose }) {
 
     if (!selectedBranch) {
       setError('Pilih dulu cabang Vitasari yang mau kamu kirimi pesanan.');
+      // Bawa pengguna langsung ke pilihan cabang, jangan hanya menampilkan
+      // pesan di bawah form yang mungkin tidak terlihat.
+      const picker = pickerRef.current;
+      picker?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      picker?.querySelector('input')?.focus({ preventScroll: true });
       return;
     }
 
@@ -74,7 +83,7 @@ export default function CheckoutModal({ isOpen, onClose }) {
   };
 
   const handleFinish = (shouldClear) => {
-    if (shouldClear) clearCart();
+    if (shouldClear) clearCart({ silent: true });
     setNote('');
     onClose();
     closeCart();
@@ -82,7 +91,7 @@ export default function CheckoutModal({ isOpen, onClose }) {
 
   return (
     <div className="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
-      <div className="modal">
+      <div className="modal" ref={modalRef}>
         <header className="modal__header">
           <div>
             <h2 id="checkout-title">{isSent ? 'Pesanan Dikirim' : 'Pilih Cabang Tujuan'}</h2>
@@ -120,7 +129,12 @@ export default function CheckoutModal({ isOpen, onClose }) {
           </div>
         ) : (
           <form className="modal__body" onSubmit={handleSubmit}>
-            <fieldset className="branch-picker">
+            <fieldset
+              className={`branch-picker${error && !selectedBranch ? ' branch-picker--error' : ''}`}
+              ref={pickerRef}
+              aria-invalid={Boolean(error && !selectedBranch)}
+              aria-describedby={error ? 'checkout-error' : undefined}
+            >
               <legend className="field-label">Cabang Vitasari</legend>
 
               <div className="branch-picker__grid">
@@ -148,6 +162,7 @@ export default function CheckoutModal({ isOpen, onClose }) {
                       <ClockIcon width={14} height={14} />
                       {branch.hours}
                     </span>
+                    <BranchStatus hours={branch.hours} />
                   </label>
                 ))}
               </div>
@@ -189,7 +204,11 @@ export default function CheckoutModal({ isOpen, onClose }) {
               />
             </label>
 
-            {error && <p className="form-error">{error}</p>}
+            {error && (
+              <p className="form-error" id="checkout-error" role="alert">
+                {error}
+              </p>
+            )}
 
             <button type="submit" className="btn btn--whatsapp btn--block">
               <WhatsAppIcon />

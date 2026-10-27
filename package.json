@@ -6,7 +6,7 @@
   "description": "Website toko roti Vitasari Bakery Bandung - terpercaya sejak 1991",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "node scripts/build.js",
     "preview": "vite preview"
   },
   "dependencies": {

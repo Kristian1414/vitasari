@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useCart } from '../context/CartContext';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { formatRupiah } from '../utils/format';
 import { backdropMotion, popupMotion } from '../utils/motion';
@@ -18,13 +19,22 @@ import QtyStepper from './QtyStepper';
  * pop up bergerak sebagai satu kesatuan.
  */
 export default function ProductQuickView({ product, onClose }) {
-  const { addItem, increment, decrement, updateQty, getQty } = useCart();
+  const { addItem, increment, decrement, updateQty, getQty, isCartOpen } = useCart();
 
   const isOpen = Boolean(product);
   const qty = product ? getQty(product.id) : 0;
 
   // Kunci scroll halaman selama pop up terbuka.
   useScrollLock(isOpen);
+  const frameRef = useFocusTrap(isOpen);
+
+  // Keranjang bisa dibuka selagi pop up ini masih terbuka -- lewat tombol
+  // "Lihat" di notifikasi setelah produk ditambahkan, misalnya. Kalau dibiarkan,
+  // pop up-nya tetap menempel di atas drawer keranjang dan menutupi isinya. Jadi
+  // begitu keranjang terbuka, pop up menutup sendiri.
+  useEffect(() => {
+    if (isOpen && isCartOpen) onClose();
+  }, [isOpen, isCartOpen, onClose]);
 
   // Tutup dengan tombol Escape.
   useEffect(() => {
@@ -69,6 +79,7 @@ export default function ProductQuickView({ product, onClose }) {
                 yang menempel di pojok ikut bergerak bersama — bukan diam di
                 tempat sementara kartunya membesar. */}
             <motion.div
+              ref={frameRef}
               className="quick-view__frame"
               initial={{ opacity: 0, scale: 0.96, y: 8 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -86,7 +97,12 @@ export default function ProductQuickView({ product, onClose }) {
 
               <div className={`quick-view__card product-card--cat-${product.category}`}>
                 <div className="quick-view__media">
-                  <ProductImage src={product.image} alt={product.name} eager />
+                  <ProductImage
+                    src={product.image}
+                    alt={product.name}
+                    eager
+                    sizes="(max-width: 640px) 92vw, 520px"
+                  />
                   {product.badge && (
                     <span
                       className={`product-card__badge product-card__badge--${toBadgeSlug(product.badge)}`}

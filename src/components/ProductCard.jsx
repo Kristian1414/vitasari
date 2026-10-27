@@ -10,11 +10,14 @@ import ProductImage from './ProductImage';
 import QtyStepper from './QtyStepper';
 
 /**
+ * `priority` untuk kartu yang langsung terlihat di layar pertama: fotonya
+ * diunduh segera dengan prioritas tinggi.
+ *
  * `reveal` mengatur animasi muncul saat di-scroll. Dimatikan di halaman Menu
  * yang berisi puluhan produk: saat di-scroll cepat, animasi berurutannya
  * membuat kartu terasa telat muncul.
  */
-export default function ProductCard({ product, index = 0, reveal = true }) {
+export default function ProductCard({ product, index = 0, reveal = true, priority = false }) {
   const { addItem, increment, decrement, updateQty, getQty } = useCart();
   const { openQuickView } = useQuickView();
   const [revealRef, isVisible] = useScrollReveal();
@@ -53,7 +56,7 @@ export default function ProductCard({ product, index = 0, reveal = true }) {
       />
 
       <div className="product-card__media">
-        <ProductImage src={product.image} alt={product.name} />
+        <ProductImage src={product.image} alt={product.name} priority={priority} />
         {product.badge && (
           <span
             className={`product-card__badge product-card__badge--${toBadgeSlug(product.badge)}`}

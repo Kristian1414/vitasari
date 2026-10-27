@@ -15,6 +15,64 @@ Alamatnya memakai akhiran `/vitasari/` karena website ini dilayani dari subfolde
 di GitHub Pages. Base path yang sama dipakai saat pengembangan supaya perilakunya
 persis sama dengan hasil akhirnya.
 
+## Prerender: HTML jadi untuk mesin pencari
+
+`npm run build` berjalan tiga langkah (lihat `scripts/build.js`):
+
+1. **Build klien** ke `dist/` — yang dijalankan browser.
+2. **Build server** ke `dist-ssr/` — aplikasi yang sama, disiapkan untuk Node.
+3. **Prerender** (`scripts/prerender.js`) — menjalankan aplikasi itu di Node,
+   lalu menyimpan hasilnya sebagai HTML biasa: `dist/index.html`,
+   `dist/menu/index.html`, `dist/cabang/index.html`, `dist/tentang/index.html`,
+   satu halaman per cabang (`dist/cabang/buah-batu/index.html`, dst.), dan
+   `dist/404.html`.
+
+Sebelumnya server hanya mengirim `<div id="root"></div>` kosong, dan seluruh isi
+halaman baru ada setelah JavaScript selesai berjalan. Google memang menjalankan
+JavaScript, tapi di antrean kedua yang jauh lebih lambat; perayap lain sering
+tidak sampai ke sana. Sekarang teks, nama produk, dan alamat cabang sudah ada di
+HTML yang pertama dikirim.
+
+Situsnya tetap satu aplikasi React: begitu JavaScript hidup, `src/main.jsx`
+menghidupkan markup itu (hydrate) dan perpindahan antarhalaman tetap tanpa muat
+ulang. Judul dan deskripsi tiap halaman ditulis dua kali dari sumber yang sama
+(`src/data/site.js`): oleh `scripts/seo-head.js` saat build, dan oleh
+`src/components/Seo.jsx` saat berpindah halaman.
+
+Dua hal yang perlu diingat kalau mengubah kode:
+
+- **Halaman baru wajib didaftarkan di `PAGE_META`** (`src/data/site.js`) selain
+  ditambahkan ke `<Routes>` di `App.jsx`. Dari situlah prerender dan sitemap
+  mengambil daftar halamannya.
+- **Halaman tiap cabang dibuat otomatis** dari `src/data/branches.js`: cabang
+  baru di sana langsung mendapat halaman `/cabang/<id>`, judul, data terstruktur,
+  dan baris sitemap-nya sendiri. `id` cabang jadi alamat halamannya, jadi jangan
+  diganti setelah halamannya terindeks Google.
+- **Jangan membaca `window`, `document`, atau `localStorage` saat render.**
+  Di langkah prerender tidak ada browser. Taruh di dalam `useEffect`, atau beri
+  penjaga `typeof window === 'undefined'` seperti di `src/hooks/useLocalStorage.js`.
+
+## Deploy ke Hostinger (vitasari.id)
+
+```bash
+npm run build -- --base=/
+```
+
+Lalu unggah **seluruh isi** folder `dist/` ke `public_html`, termasuk
+subfolder `menu/`, `cabang/` (beserta folder tiap cabang di dalamnya),
+`tentang/`, dan berkas `.htaccess` yang tersembunyi. Tanpa subfolder-subfolder
+itu, halaman selain beranda membalas 404.
+
+`.htaccess` juga mengalihkan `http://` dan `www.` ke `https://vitasari.id`, jadi
+sertifikat SSL di Hostinger harus sudah aktif sebelum berkas ini diunggah.
+
+Setelah diunggah, daftarkan `https://vitasari.id/sitemap.xml` di
+[Google Search Console](https://search.google.com/search-console) supaya halaman
+baru cepat dirayapi.
+
+Jalankan perintah di atas lewat **PowerShell atau CMD**, jangan Git Bash: Git Bash
+mengubah `--base=/` menjadi path Windows, dan hasil build-nya salah alamat.
+
 ## Deploy ke GitHub Pages
 
 Setiap `git push` ke branch `main` otomatis mem-build dan menerbitkan website
@@ -22,6 +80,11 @@ lewat GitHub Actions (`.github/workflows/deploy.yml`). Tidak perlu perintah
 tambahan.
 
 Alamat website: **https://kristian1414.github.io/vitasari/**
+
+Salinan ini sengaja ditutup dari mesin pencari lewat `robots.txt` (`Disallow: /`),
+yang ditulis otomatis saat base bukan `/`. Isinya sama persis dengan vitasari.id,
+dan dua alamat berisi hal yang sama akan saling memperebutkan peringkat yang sama
+di Google. Yang boleh diindeks hanya domain resmi.
 
 Pengaturan yang perlu dilakukan sekali di GitHub:
 Settings -> Pages -> Source, pilih **GitHub Actions**.
@@ -37,7 +100,7 @@ Kalau nama repositori diganti, ubah juga `REPO_NAME` di `vite.config.js`.
 | Keranjang persisten | Isi keranjang disimpan di `localStorage` (key `vitasari:cart`), tidak hilang saat refresh atau browser ditutup, dan tersinkron antar tab |
 | Order via WhatsApp | Klik **Order Now** → pilih cabang → daftar pesanan otomatis terisi di chat WhatsApp cabang tersebut |
 | Responsive | Desktop, tablet, dan HP (ada bar keranjang menempel di bawah layar HP) |
-| Halaman | Beranda, Menu, Cabang, Tentang, dan halaman 404 |
+| Halaman | Beranda, Menu, Cabang, halaman tiap cabang, Tentang, dan halaman 404 |
 
 ## Alur pemesanan
 
@@ -109,6 +172,17 @@ skrip di atas.
 > Hasilnya jauh lebih bersih dibanding pembesaran biasa, tapi tetap bukan setajam foto
 > asli. Kalau Vitasari punya file foto aslinya, timpa saja file di
 > `public/images/products/` dengan nama yang sama — tidak perlu mengubah kode.
+
+### Foto versi web (WebP)
+
+Foto produk asli berukuran besar (total ±15 MB). Untuk ditampilkan di website,
+`npm run build` otomatis membuat versi WebP 360px dan 720px di
+`public/images/products-web/` (total ±1,3 MB untuk versi 360px), dan browser
+memilih ukuran yang pas. Foto asli tetap dipakai sebagai cadangan. Untuk membuatnya
+tanpa build: `node scripts/buat-foto-web.mjs`.
+
+Foto produk baru cukup ditaruh di `public/images/products/`; versi WebP-nya ikut
+dibuat saat build berikutnya.
 
 Tiga gambar latar halaman (`hero-bg.jpg`, `hero.jpg`, `about.jpg`) masih memakai foto
 stok Unsplash. Detail sumber ada di `docs/SUMBER-FOTO.md`, checklist file di

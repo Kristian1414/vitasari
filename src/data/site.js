@@ -2,8 +2,8 @@
  * Identitas situs untuk mesin pencari.
  *
  * Satu berkas ini dipakai tiga tempat sekaligus: tag <head> tiap halaman
- * (components/Seo.jsx), data terstruktur JSON-LD, dan sitemap.xml (keduanya
- * dibuat saat build di vite.config.js). Kalau alamat atau deskripsi diubah,
+ * (components/Seo.jsx), data terstruktur JSON-LD (scripts/seo-head.js), dan
+ * sitemap.xml (vite.config.js). Kalau alamat atau deskripsi diubah,
  * cukup di sini — ketiganya ikut, dan tidak mungkin lagi saling berbeda isi.
  */
 
@@ -14,12 +14,21 @@
  * TIDAK mengikuti base path Vite: walau situs yang sama juga dilayani dari
  * GitHub Pages, yang boleh diakui Google sebagai versi resmi hanya domain ini.
  */
+import { areaCabang, branches, ruteCabang } from './branches.js';
+
 export const SITE_URL = 'https://vitasari.id';
 
 export const SITE_NAME = 'Vitasari Bakery';
 
 /** Gambar yang muncul saat tautan dibagikan di WhatsApp, Facebook, dsb. */
 export const SITE_IMAGE = '/images/hero-bg.jpeg';
+
+/**
+ * Ukuran asli gambar di atas, dalam piksel. Ditulis ke og:image:width/height
+ * supaya WhatsApp dan Facebook bisa langsung menampilkan pratinjau besar tanpa
+ * mengunduh gambarnya dulu untuk diukur. Ubah juga kalau gambarnya diganti.
+ */
+export const SITE_IMAGE_SIZE = { width: 1280, height: 1280 };
 
 /**
  * Profil resmi di tempat lain. Dipakai pada properti `sameAs` JSON-LD, yang
@@ -42,25 +51,55 @@ export const SITE_SAMEAS = [
  * Panjang judul dijaga di bawah 60 karakter dan deskripsi di bawah 160 karakter
  * supaya tidak dipotong Google di halaman hasil pencarian.
  */
-export const PAGE_META = {
+const HALAMAN_UTAMA = {
   '/': {
-    title: 'Vitasari Bakery — Toko Roti & Kue Bandung Sejak 1991',
+    label: 'Beranda',
+    title: 'Toko Roti & Kue di Bandung Sejak 1991 — Vitasari Bakery',
     description:
-      'Toko roti dan kue legendaris di Bandung sejak 1991. Roti manis, bolu, cake, dan jajanan pasar dipanggang setiap pagi. Pesan lewat WhatsApp cabang terdekat.',
+      'Vitasari Bakery, toko roti dan kue di Bandung sejak 1991 dengan 7 cabang. Roti manis, bolu, cake, dan jajanan pasar dipanggang tiap pagi. Pesan via WhatsApp.',
   },
   '/menu': {
+    label: 'Menu',
     title: 'Menu & Harga Roti dan Kue — Vitasari Bakery Bandung',
     description:
       'Daftar lengkap roti, cake, dan jajanan pasar Vitasari Bakery beserta harganya. Pilih favoritmu, lalu pesan langsung lewat WhatsApp cabang Bandung terdekat.',
   },
   '/cabang': {
+    label: 'Cabang',
     title: '7 Cabang Vitasari Bakery di Bandung — Alamat & Jam Buka',
     description:
       'Alamat lengkap, jam buka, dan nomor WhatsApp tujuh cabang Vitasari Bakery: Kurdi, Buah Batu, Holis, Pajajaran, Sabang, Surapati, dan Setiabudi.',
   },
   '/tentang': {
+    label: 'Tentang',
     title: 'Tentang Vitasari Bakery — Toko Roti Bandung Sejak 1991',
     description:
       'Kisah Vitasari Bakery, dari satu oven kecil di Jl. H. Kurdi pada 1991 hingga tujuh cabang yang melayani keluarga Bandung sampai hari ini.',
   },
 };
+
+/**
+ * Satu halaman untuk tiap cabang, dibangkitkan dari src/data/branches.js.
+ *
+ * Orang jarang berhenti di "toko roti di bandung" -- yang lebih sering diketik
+ * justru nama kawasannya: "toko roti buah batu", "toko roti setiabudi". Untuk
+ * pencarian seperti itu Google mencari halaman yang memang membicarakan kawasan
+ * tersebut, dan satu halaman Cabang yang memuat ketujuhnya sekaligus tidak bisa
+ * jadi jawaban terbaik untuk tujuh pencarian berbeda.
+ */
+const HALAMAN_CABANG = Object.fromEntries(
+  branches.map((cabang) => [
+    ruteCabang(cabang),
+    {
+      label: areaCabang(cabang),
+      title: `Toko Roti di ${areaCabang(cabang)} Bandung — Vitasari Bakery`,
+      description: `Vitasari Bakery ${areaCabang(cabang)}: ${cabang.address}, Bandung. Buka setiap hari ${cabang.hours}. Pesan lewat WhatsApp.`,
+    },
+  ]),
+);
+
+/**
+ * Seluruh halaman yang boleh diindeks, dengan alamatnya sebagai kunci. Dari
+ * sinilah prerender, sitemap, dan Seo.jsx mengambil daftar halamannya.
+ */
+export const PAGE_META = { ...HALAMAN_UTAMA, ...HALAMAN_CABANG };

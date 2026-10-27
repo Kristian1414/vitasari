@@ -1,36 +1,12 @@
 import { Link } from "react-router-dom";
+import BranchLinkGrid from "../components/BranchLinkGrid";
 import ProductCard from "../components/ProductCard";
 import ProductImage from "../components/ProductImage";
 import VitasariWordmark from "../components/VitasariWordmark";
-import Reveal, { staggerDelay } from "../components/Reveal";
-import {
-  ArrowRightIcon,
-  BreadIcon,
-  BunIcon,
-  CakeIcon,
-  CandleIcon,
-  ClockIcon,
-  MapPinIcon,
-  PieIcon,
-  SlicedBreadIcon,
-  SparkleIcon,
-} from "../components/Icons";
-import { categories, products } from "../data/products";
+import Reveal from "../components/Reveal";
+import { ArrowRightIcon, MapPinIcon } from "../components/Icons";
+import { products } from "../data/products";
 import { assetUrl } from "../utils/assetUrl";
-
-/**
- * Ikon tiap kategori. Dipisah dari src/data/products.js karena file itu berisi
- * data murni, sedangkan ini komponen React. Kategori yang belum terdaftar di
- * sini jatuh ke ikon roti sebagai cadangan.
- */
-const IKON_KATEGORI = {
-  "roti-manis": BunIcon,
-  "roti-tawar": SlicedBreadIcon,
-  cake: CakeIcon,
-  "jajanan-pasar": BreadIcon,
-  pastry: PieIcon,
-  pelengkap: CandleIcon,
-};
 
 /**
  * Keterangan sertifikat halal.
@@ -53,35 +29,10 @@ const HIGHLIGHT_IDS = [
   "blackforest-15",
 ];
 
-const REASONS = [
-  {
-    icon: <BreadIcon width={24} height={24} />,
-    tone: "amber",
-    title: "Resep Warisan Keluarga",
-    text: "Adonan dan isian dibuat dengan resep yang sama sejak 1991, tanpa jalan pintas dan tanpa pengawet.",
-  },
-  {
-    icon: <ClockIcon width={24} height={24} />,
-    tone: "terracotta",
-    title: "Dipanggang Setiap Pagi",
-    text: "Produksi dimulai dini hari supaya roti yang kamu ambil di toko masih hangat dan wangi.",
-  },
-  {
-    icon: <SparkleIcon width={24} height={24} />,
-    tone: "pandan",
-    title: "Bahan Pilihan",
-    text: "Butter, keju, dan coklat berkualitas dengan takaran yang tidak dikurangi, rasa selalu konsisten.",
-  },
-];
-
 export default function Home() {
   const highlights = HIGHLIGHT_IDS.map((id) =>
     products.find((product) => product.id === id),
   ).filter(Boolean);
-
-  const showcaseCategories = categories.filter(
-    (category) => category.id !== "semua",
-  );
 
   return (
     <>
@@ -101,12 +52,15 @@ export default function Home() {
           <div className="hero__content">
             <VitasariWordmark className="hero__brand" />
             <span className="eyebrow">Terpercaya sejak 1991</span>
+            {/* "Toko roti" dan "Bandung" sengaja ada di judul utama: inilah
+                teks yang paling diperhatikan mesin pencari di halaman ini,
+                dan dua kata itu persis yang diketik orang saat mencari. */}
             <h1>
-              Roti Hangat &amp; Kue Legendaris <em>Khas Bandung</em>
+              Toko Roti &amp; Kue Legendaris <em>di Bandung</em>
             </h1>
             <p>
-              Vitasari Bakery memanggang roti, cake, dan jajanan pasar setiap
-              pagi dengan resep keluarga yang tidak pernah berubah. Pilih
+              Vitasari Bakery adalah toko roti di Bandung yang memanggang roti
+              hangat, cake, dan jajanan pasar setiap pagi dengan resep keluarga yang tidak pernah berubah. Pilih
               favoritmu, lalu kirim pesanan langsung ke WhatsApp cabang
               terdekat.
             </p>
@@ -135,6 +89,7 @@ export default function Home() {
               <ProductImage
                 src="/images/hero-lingkaran.jpeg"
                 alt="Roti coklat Vitasari Bakery di atas talenan kayu, ditemani secangkir susu dan serutan coklat"
+                priority
               />
             </div>
           </div>
@@ -166,76 +121,24 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Kategori */}
+      {/* Lokasi toko */}
       <section className="section section--muted">
         <div className="container">
           <Reveal className="section__head section__head--center">
             <div>
-              <span className="eyebrow">Kategori</span>
-              <h2 className="section__title">Semua yang Kami Panggang</h2>
+              <span className="eyebrow">Lokasi toko</span>
+              <h2 className="section__title">
+                Toko Roti Vitasari di 7 Lokasi Bandung
+              </h2>
               <p className="section__subtitle">
-                Dari roti manis harian sampai cake untuk perayaan keluarga.
+                Dari Setiabudi di utara sampai Buah Batu di selatan. Pilih
+                cabang terdekat untuk melihat alamat, jam buka, dan nomor
+                WhatsApp-nya.
               </p>
             </div>
           </Reveal>
 
-          <div className="category-grid">
-            {showcaseCategories.map((category, index) => {
-              const count = products.filter(
-                (product) => product.category === category.id,
-              ).length;
-              const Ikon = IKON_KATEGORI[category.id] ?? BreadIcon;
-
-              return (
-                <Reveal
-                  key={category.id}
-                  as={Link}
-                  to={`/menu?kategori=${category.id}`}
-                  className={`category-card category-card--${category.id}`}
-                  variant="zoom"
-                  delay={staggerDelay(index, 80)}
-                >
-                  <span className="category-card__icon">
-                    <Ikon width={19} height={19} />
-                  </span>
-                  <h3>{category.label}</h3>
-                  <span className="category-card__count">{count} varian</span>
-                  <ArrowRightIcon
-                    width={14}
-                    height={14}
-                    className="category-card__arrow"
-                  />
-                </Reveal>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Kenapa Vitasari */}
-      <section className="section">
-        <div className="container">
-          <Reveal className="section__head section__head--center">
-            <div>
-              <span className="eyebrow">Kenapa Vitasari</span>
-              <h2 className="section__title">Tiga Dekade Menjaga Rasa</h2>
-            </div>
-          </Reveal>
-
-          <div className="reason-grid">
-            {REASONS.map((reason, index) => (
-              <Reveal
-                key={reason.title}
-                as="article"
-                className={`reason-card reason-card--${reason.tone}`}
-                delay={staggerDelay(index, 110)}
-              >
-                <span className="reason-card__icon">{reason.icon}</span>
-                <h3>{reason.title}</h3>
-                <p>{reason.text}</p>
-              </Reveal>
-            ))}
-          </div>
+          <BranchLinkGrid />
         </div>
       </section>
 

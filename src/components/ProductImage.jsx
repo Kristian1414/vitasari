@@ -2,13 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { BreadIcon } from './Icons';
 import { assetUrl } from '../utils/assetUrl';
 
-/** Palet gradasi krem hangat untuk placeholder, dipilih berdasarkan nama produk. */
+/** Palet gradasi untuk placeholder, dipilih berdasarkan nama produk. */
 const PLACEHOLDER_GRADIENTS = [
-  'linear-gradient(135deg, #fdf6ea 0%, #f0dcbe 100%)',
-  'linear-gradient(135deg, #fbf3e6 0%, #ecd6b6 100%)',
-  'linear-gradient(135deg, #fdf4e3 0%, #f2ddc2 100%)',
-  'linear-gradient(135deg, #faf1e4 0%, #e9d3b0 100%)',
-  'linear-gradient(135deg, #fef7ec 0%, #f3e0c4 100%)',
+  'linear-gradient(135deg, #2b231e 0%, #3a2e26 100%)',
+  'linear-gradient(135deg, #261f1a 0%, #362a22 100%)',
+  'linear-gradient(135deg, #2a221c 0%, #3b3027 100%)',
 ];
 
 const pickGradient = (seed) => {
@@ -20,24 +18,46 @@ const pickGradient = (seed) => {
 };
 
 /**
+ * Versi WebP ringan dari foto produk, dibuat oleh scripts/buat-foto-web.mjs:
+ *   /images/products/roti-coklat.jpeg -> /images/products-web/roti-coklat-360.webp, -720.webp
+ * Foto di luar folder produk (foto toko, dsb.) tidak punya versi ini.
+ */
+const webpSrcSet = (src) => {
+  const match = /^\/images\/products\/(.+)\.(jpe?g|png)$/i.exec(src || '');
+  if (!match) return null;
+  const base = assetUrl(`/images/products-web/${match[1]}`);
+  return `${base}-360.webp 360w, ${base}-720.webp 720w`;
+};
+
+/**
  * Daftar foto yang sudah pernah selesai dimuat selama halaman ini dibuka.
  *
  * Gunanya: foto yang sama bisa muncul di dua tempat sekaligus — di kartu grid
  * dan di pop up detailnya. Tanpa catatan ini, foto di pop up selalu dianggap
- * baru, jadi ia mulai dari transparan lalu memudar masuk 0,55 detik tepat saat
- * kartunya sedang membesar. Dua foto besar yang saling memudar di frame yang
- * sama itu berat dan membuat animasinya terlihat ngelag.
+ * baru, jadi ia mulai dari transparan lalu memudar masuk tepat saat pop up-nya
+ * muncul.
  */
 const loadedSources = new Set();
 
 /**
- * Menampilkan foto produk dengan efek muncul perlahan setelah gambar selesai dimuat.
+ * Menampilkan foto produk dengan efek muncul halus setelah gambar selesai dimuat.
  * Kalau file fotonya tidak ada, otomatis jatuh ke placeholder bergradasi.
  *
- * `eager` untuk foto yang harus langsung ada begitu dirender (pop up detail),
- * bukan yang menunggu digulir seperti foto di grid.
+ * - `sizes`    : lebar tampil foto, supaya browser memilih versi WebP yang pas.
+ *                Bawaannya untuk kartu produk di grid.
+ * - `priority` : foto yang langsung terlihat di layar pertama. Diunduh segera
+ *                dengan prioritas tinggi, bukan menunggu giliran seperti foto
+ *                di bawah layar.
+ * - `eager`    : diunduh segera tanpa prioritas khusus (pop up detail).
  */
-export default function ProductImage({ src, alt, className = '', eager = false }) {
+export default function ProductImage({
+  src,
+  alt,
+  className = '',
+  eager = false,
+  priority = false,
+  sizes = '(max-width: 640px) 46vw, 260px',
+}) {
   const imgRef = useRef(null);
   const [failed, setFailed] = useState(false);
   const [loaded, setLoaded] = useState(() => loadedSources.has(src));
@@ -48,10 +68,11 @@ export default function ProductImage({ src, alt, className = '', eager = false }
     setLoaded(loadedSources.has(src));
   }, [src]);
 
-  // Gambar dari cache bisa selesai dimuat sebelum handler onLoad terpasang,
-  // jadi status `complete` dicek ulang setelah render.
+  // Foto di HTML hasil prerender bisa sudah selesai dimuat sebelum React
+  // memasang onLoad, jadi statusnya dicek ulang setelah render.
   useEffect(() => {
-    if (imgRef.current?.complete) {
+    const img = imgRef.current;
+    if (img?.complete && img.naturalWidth > 0) {
       loadedSources.add(src);
       setLoaded(true);
     }
@@ -71,15 +92,14 @@ export default function ProductImage({ src, alt, className = '', eager = false }
     );
   }
 
-  return (
+  const img = (
     <img
       ref={imgRef}
       className={`product-image ${loaded ? 'is-loaded' : ''} ${className}`.trim()}
       src={assetUrl(src)}
       alt={alt}
-      loading={eager ? 'eager' : 'lazy'}
-      // Foto katalognya beresolusi tinggi. Tanpa ini browser boleh membongkar
-      // gambarnya di jalur utama, dan jedanya jatuh pas animasi mulai jalan.
+      loading={eager || priority ? 'eager' : 'lazy'}
+      fetchpriority={priority ? 'high' : undefined}
       decoding="async"
       onLoad={() => {
         loadedSources.add(src);
@@ -87,5 +107,17 @@ export default function ProductImage({ src, alt, className = '', eager = false }
       }}
       onError={() => setFailed(true)}
     />
+  );
+
+  const srcSet = webpSrcSet(src);
+  if (!srcSet) return img;
+
+  // <picture>: browser yang mendukung WebP mengambil versi ringan dengan
+  // ukuran yang pas; yang tidak, tetap memakai foto JPG aslinya.
+  return (
+    <picture className="product-image__picture">
+      <source type="image/webp" srcSet={srcSet} sizes={sizes} />
+      {img}
+    </picture>
   );
 }

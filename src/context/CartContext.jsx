@@ -14,9 +14,13 @@ export function CartProvider({ children }) {
   const openCart = useCallback(() => setIsCartOpen(true), []);
   const closeCart = useCallback(() => setIsCartOpen(false), []);
 
-  const showToast = useCallback((message) => {
+  /**
+   * `action` opsional: { label, run }. Tanpa action, tombolnya "Lihat" yang
+   * membuka keranjang. Dipakai juga untuk tombol "Batalkan" setelah menghapus.
+   */
+  const showToast = useCallback((message, action = null) => {
     // key unik supaya toast yang sama bisa muncul lagi dan animasinya ter-reset
-    setToast({ message, key: Date.now() });
+    setToast({ message, action, key: Date.now() });
   }, []);
 
   const dismissToast = useCallback(() => setToast(null), []);
@@ -50,9 +54,27 @@ export function CartProvider({ children }) {
     [setItems, showToast],
   );
 
+  // Menghapus selalu bisa dibatalkan lewat notifikasi, supaya salah sentuh
+  // di tombol tempat sampah tidak membuat pesanan hilang.
   const removeItem = useCallback(
-    (id) => setItems((current) => current.filter((item) => item.id !== id)),
-    [setItems],
+    (id) => {
+      const index = items.findIndex((item) => item.id === id);
+      if (index === -1) return;
+      const removed = items[index];
+
+      setItems((current) => current.filter((item) => item.id !== id));
+      showToast(`${removed.name} dihapus`, {
+        label: 'Batalkan',
+        run: () =>
+          setItems((current) => {
+            if (current.some((item) => item.id === id)) return current;
+            const next = [...current];
+            next.splice(Math.min(index, next.length), 0, removed);
+            return next;
+          }),
+      });
+    },
+    [items, setItems, showToast],
   );
 
   const updateQty = useCallback(
@@ -84,7 +106,21 @@ export function CartProvider({ children }) {
     [setItems],
   );
 
-  const clearCart = useCallback(() => setItems([]), [setItems]);
+  // `silent` dipakai setelah pesanan terkirim: keranjang memang sengaja
+  // dikosongkan, jadi tidak perlu tawaran membatalkan.
+  const clearCart = useCallback(
+    ({ silent = false } = {}) => {
+      const previous = items;
+      setItems([]);
+      if (!silent && previous.length > 0) {
+        showToast('Keranjang dikosongkan', {
+          label: 'Batalkan',
+          run: () => setItems(previous),
+        });
+      }
+    },
+    [items, setItems, showToast],
+  );
 
   const getQty = useCallback(
     (id) => items.find((item) => item.id === id)?.qty ?? 0,

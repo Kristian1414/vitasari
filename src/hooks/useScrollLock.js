@@ -1,5 +1,52 @@
 import { useLayoutEffect } from 'react';
 
+/*
+ * Kuncinya dihitung, bukan disimpan per-overlay.
+ *
+ * Overlay di situs ini bisa bertumpuk: pop up produk masih terbuka saat
+ * keranjang dibuka dari notifikasi, dan modal pilih cabang menimpa keranjang.
+ * Kalau tiap overlay menyimpan sendiri nilai `overflow-y` sebelumnya, yang
+ * kedua akan menyimpan "hidden" milik yang pertama sebagai nilai asli — lalu
+ * saat semuanya ditutup, nilai "hidden" itulah yang dikembalikan dan halaman
+ * terkunci selamanya.
+ *
+ * Jadi gaya aslinya hanya dicatat sekali, waktu overlay pertama membuka, dan
+ * baru dikembalikan setelah overlay terakhir menutup.
+ */
+let lockCount = 0;
+let restoreOverflowY = '';
+let restorePaddingRight = '';
+
+function lockPage() {
+  const root = document.documentElement;
+
+  if (lockCount === 0) {
+    restoreOverflowY = root.style.overflowY;
+    restorePaddingRight = root.style.paddingRight;
+
+    // Lebar scrollbar diukur di sini saja. Overlay kedua tidak boleh ikut
+    // mengukur: scrollbar-nya sudah hilang, jadi hasilnya pasti 0 dan padding
+    // pengganti yang sudah terpasang malah akan tertimpa.
+    const scrollbarWidth = window.innerWidth - root.clientWidth;
+
+    root.style.overflowY = 'hidden';
+    if (scrollbarWidth > 0) root.style.paddingRight = `${scrollbarWidth}px`;
+  }
+
+  lockCount += 1;
+}
+
+function unlockPage() {
+  if (lockCount === 0) return;
+
+  lockCount -= 1;
+  if (lockCount > 0) return;
+
+  const root = document.documentElement;
+  root.style.overflowY = restoreOverflowY;
+  root.style.paddingRight = restorePaddingRight;
+}
+
 /**
  * Kunci scroll halaman selama sebuah overlay (pop up / drawer) terbuka.
  *
@@ -22,17 +69,7 @@ export function useScrollLock(isLocked) {
   useLayoutEffect(() => {
     if (!isLocked) return undefined;
 
-    const root = document.documentElement;
-    const previousOverflowY = root.style.overflowY;
-    const previousPaddingRight = root.style.paddingRight;
-    const scrollbarWidth = window.innerWidth - root.clientWidth;
-
-    root.style.overflowY = 'hidden';
-    if (scrollbarWidth > 0) root.style.paddingRight = `${scrollbarWidth}px`;
-
-    return () => {
-      root.style.overflowY = previousOverflowY;
-      root.style.paddingRight = previousPaddingRight;
-    };
+    lockPage();
+    return unlockPage;
   }, [isLocked]);
 }

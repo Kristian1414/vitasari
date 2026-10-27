@@ -92,5 +92,11 @@ export const branches = [
 
 export const getBranchById = (id) => branches.find((branch) => branch.id === id);
 
+/** Nama kawasan cabang tanpa awalan "Cabang", misalnya "Buah Batu". */
+export const areaCabang = (branch) => branch.name.replace(/^Cabang\s+/, '');
+
+/** Alamat halaman milik satu cabang, misalnya "/cabang/buah-batu". */
+export const ruteCabang = (branch) => `/cabang/${branch.id}`;
+
 /** Titik tengah peta saat belum ada cabang yang dipilih (pusat Kota Bandung). */
 export const BANDUNG_CENTER = [-6.9105, 107.6086];

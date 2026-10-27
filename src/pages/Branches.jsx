@@ -1,11 +1,13 @@
 import { lazy, Suspense, useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   ArrowRightIcon,
   ClockIcon,
   MapPinIcon,
   WhatsAppIcon,
 } from '../components/Icons';
-import { branches } from '../data/branches';
+import BranchStatus from '../components/BranchStatus';
+import { branches, ruteCabang } from '../data/branches';
 
 // Leaflet cukup besar dan hanya dipakai di halaman ini, jadi dimuat terpisah
 // supaya halaman lain tidak ikut menanggung ukurannya.
@@ -47,9 +49,10 @@ export default function Branches() {
       <section className="page-header page-header--cabang">
         <div className="container">
           <span className="eyebrow">Cabang Kami</span>
-          <h1>Temukan Lokasi Toko Kami</h1>
+          <h1>Lokasi Toko Roti Vitasari di Bandung</h1>
           <p>
-            Klik salah satu cabang di daftar, peta di sebelahnya akan langsung
+            Vitasari Bakery punya tujuh toko roti di Kota Bandung, semuanya buka
+            setiap hari. Klik salah satu cabang di daftar, peta di sebelahnya akan langsung
             memperbesar ke lokasi tersebut. Setiap cabang punya nomor WhatsApp
             sendiri untuk pemesanan.
           </p>
@@ -76,7 +79,10 @@ export default function Branches() {
                       aria-expanded={isOpen}
                       aria-controls={panelId}
                     >
-                      <span>Vitasari {branch.name}</span>
+                      <span className="store-item__title">
+                        <span>Vitasari {branch.name}</span>
+                        <BranchStatus hours={branch.hours} />
+                      </span>
                       <ChevronIcon className="store-item__chevron" />
                     </button>
                   </h2>
@@ -124,6 +130,9 @@ export default function Branches() {
                             Buka di Google Maps
                             <ArrowRightIcon width={15} height={15} />
                           </a>
+                          <Link to={ruteCabang(branch)} className="btn btn--ghost btn--sm">
+                            Halaman Cabang
+                          </Link>
                         </div>
                       </div>
                     </div>

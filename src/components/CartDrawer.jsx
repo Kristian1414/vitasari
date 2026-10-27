@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { formatRupiah } from '../utils/format';
 import CheckoutModal from './CheckoutModal';
@@ -25,6 +26,7 @@ export default function CartDrawer() {
 
   // Kunci scroll halaman selama drawer/modal terbuka.
   useScrollLock(isCartOpen);
+  const drawerRef = useFocusTrap(isCartOpen);
 
   // Tutup dengan tombol Escape, kecuali kalau modal checkout sedang menimpa drawer.
   useEffect(() => {
@@ -47,6 +49,9 @@ export default function CartDrawer() {
       />
 
       <aside
+        ref={drawerRef}
+        role="dialog"
+        aria-modal="true"
         className={`cart-drawer${isCartOpen ? ' is-open' : ''}`}
         aria-hidden={!isCartOpen}
         aria-label="Keranjang belanja"
@@ -87,7 +92,7 @@ export default function CartDrawer() {
               {items.map((item) => (
                 <li key={item.id} className="cart-item">
                   <div className="cart-item__media">
-                    <ProductImage src={item.image} alt={item.name} />
+                    <ProductImage src={item.image} alt={item.name} sizes="64px" />
                   </div>
 
                   <div className="cart-item__info">

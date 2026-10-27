@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { branches } from '../data/branches';
+import { branches, ruteCabang } from '../data/branches';
 import { InstagramIcon, WhatsAppIcon } from './Icons';
 import WhatsAppBranchModal from './WhatsAppBranchModal';
 import logoVitasari from '../assets/logoVitasari.jpg';
@@ -47,11 +47,13 @@ export default function Footer() {
         <div className="footer__col">
           <h4>Cabang</h4>
           <ul>
-            {branches.slice(0, 4).map((branch) => (
+            {/* Menuju halaman tiap cabang, bukan langsung ke WhatsApp: footer
+                tampil di semua halaman, jadi dari sinilah halaman-halaman cabang
+                mendapat tautan dari seluruh situs. Tombol WhatsApp tetap ada di
+                kolom merek di sebelah kiri. */}
+            {branches.map((branch) => (
               <li key={branch.id}>
-                <a href={`https://wa.me/${branch.waNumber}`} target="_blank" rel="noopener noreferrer">
-                  {branch.name}
-                </a>
+                <Link to={ruteCabang(branch)}>{branch.name}</Link>
               </li>
             ))}
             <li><Link to="/cabang">Lihat semua cabang</Link></li>
@@ -70,7 +72,14 @@ export default function Footer() {
 
       <div className="footer__bottom">
         <div className="container footer__bottom-inner">
-          <p>&copy; {new Date().getFullYear()} Vitasari Bakery Bandung. Semua hak cipta dilindungi.</p>
+          {/* Tahun dibaca dari jam perangkat pengunjung, jadi bisa berbeda dengan
+              tahun saat halaman ini di-prerender -- tepat pada pergantian tahun,
+              sebelum build berikutnya dijalankan. `suppressHydrationWarning`
+              memberi tahu React bahwa selisih di satu teks ini memang wajar, dan
+              cukup diperbaiki diam-diam alih-alih dianggap markup yang salah. */}
+          <p suppressHydrationWarning>
+            &copy; {new Date().getFullYear()} Vitasari Bakery Bandung. Semua hak cipta dilindungi.
+          </p>
           <p>Terpercaya sejak 1991</p>
         </div>
       </div>

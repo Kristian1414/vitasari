@@ -45,14 +45,18 @@ export default function BranchMap({ selectedId, onSelect }) {
       zoomControl: true,
     });
 
-    // Tile CARTO "Voyager": gaya jalan, warna, dan ikon tempatnya paling mirip
-    // Google Maps di antara penyedia tile gratis, dan boleh dipakai tanpa API key.
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-      subdomains: 'abcd',
-      maxZoom: 20,
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-    }).addTo(map);
+    // Tile Esri "World Street Map": gaya jalan dan labelnya mirip Google Maps,
+    // dan masih bisa dipakai tanpa API key. (CARTO dulu dipakai di sini, tapi
+    // sekarang tile tanpa key dikirim dengan watermark "API KEY REQUIRED".)
+    // Catatan: urutan path-nya {z}/{y}/{x}, bukan {z}/{x}/{y} seperti tile lain.
+    L.tileLayer(
+      'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+      {
+        maxZoom: 19,
+        attribution:
+          'Tiles &copy; <a href="https://www.esri.com/">Esri</a> &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012',
+      },
+    ).addTo(map);
 
     branches.forEach((branch) => {
       const marker = L.marker(branch.coords, {

@@ -1,77 +1,97 @@
 /* =========================================================
    Vitasari Bakery - Global Stylesheet
-   Tema: terang, putih dominan dengan aksen amber dari logo, mobile first.
+   Tema: gelap "Espresso & Emas", mobile first.
    ========================================================= */
 
 :root {
-  /* Tema terang: putih dominan dengan aksen amber dari logo Vitasari. */
-  --bg: #ffffff;
-  --bg-alt: #faf6f0;
-  --surface: #ffffff;
-  --surface-2: #f6f1e9;
-  --line: rgba(58, 40, 22, 0.13);
-  --line-strong: rgba(58, 40, 22, 0.24);
+  color-scheme: dark;
 
-  --text: #2b2118;
-  --text-muted: #6a5a49;
-  --text-dim: #8b7a67;
+  /* Tema gelap "Espresso & Emas": cokelat espresso yang hampir hitam, teks
+     gading, dan satu aksen emas kalem (turunan amber logo Vitasari yang
+     diredam). Warna kategori sengaja diredam ke kecerahan yang sama supaya
+     tidak ramai. */
+  --bg: #17120f;
+  --bg-alt: #120e0c;
+  --surface: #211a16;
+  --surface-2: #2b231e;
+  --line: rgb(240 225 205 / 0.1);
+  --line-strong: rgb(240 225 205 / 0.2);
 
-  --ink-on-accent: #2b1c0c;
+  --text: #f2ebe1;
+  --text-muted: #c6b9aa;
+  --text-dim: #a99a89;
 
-  /* Aksen utama: amber dari logo Vitasari. */
-  --accent: #e0912f;
-  --accent-soft: #a8631a;
-  --accent-dark: #8a4f13;
-  --accent-wash: #fdf3e6;
+  --ink-on-accent: #1a140e;
 
-  /* Palet pendamping. Semua diambil dari warna bahan roti dan kue supaya tetap
-     satu keluarga dengan amber logo:
-     - `-ink`  versi gelap, aman dipakai sebagai teks di atas putih
-     - `-wash` versi sangat muda, untuk latar tipis dan kotak ikon */
-  --cocoa: #8a5a2b;
-  --cocoa-ink: #6b4423;
-  --cocoa-wash: #f6eee3;
+  /* Komponen RGB untuk warna yang dipakai dengan transparansi
+     (lapisan foto hero, navbar saat digulir, semburat cahaya). */
+  --bg-rgb: 23 18 15;
+  --nav-rgb: 20 16 13;
+  --accent-rgb: 201 160 99;
+  --glow-2-rgb: 201 160 99;
 
-  --berry: #c4456b;
-  --berry-ink: #a83158;
-  --berry-wash: #fdeef3;
+  /* Aksen emas kalem. Versi `-soft` dan `-dark` sedikit lebih terang, untuk
+     teks dan efek hover di atas latar gelap. */
+  --accent: #c9a063;
+  --accent-soft: #d6b07a;
+  --accent-dark: #e2c48f;
+  --accent-wash: rgb(201 160 99 / 0.12);
 
-  --pandan: #4e8f3e;
-  --pandan-ink: #2f6b28;
-  --pandan-wash: #edf6ea;
+  /* Warna kategori, diredam ke kecerahan yang sama: pasir, mawar pudar,
+     sage, tanah liat, dan ungu pucat. Semuanya lolos kontras 4,5:1 sebagai
+     teks di atas kartu, dan sebagai latar badge bertulisan gelap.
+     - `-ink`  dipakai sebagai teks
+     - `-wash` semburat tipis transparan, untuk latar tipis dan kotak ikon */
+  --cocoa: #c9a27a;
+  --cocoa-ink: #c9a27a;
+  --cocoa-wash: rgb(201 162 122 / 0.12);
 
-  --terracotta: #c2603c;
-  --terracotta-ink: #a84a29;
-  --terracotta-wash: #fdf0ea;
+  --berry: #d9a0a6;
+  --berry-ink: #d9a0a6;
+  --berry-wash: rgb(217 160 166 / 0.12);
 
-  --plum: #9a5bb0;
-  --plum-ink: #7b3f91;
-  --plum-wash: #f7eefb;
+  --pandan: #a9bf96;
+  --pandan-ink: #a9bf96;
+  --pandan-wash: rgb(169 191 150 / 0.12);
 
-  /* Warna dasar footer yang gelap, sebagai penutup halaman. */
-  --footer-bg: #2a1d12;
-  --footer-text: #f3e9dc;
-  --footer-dim: #b8a08a;
-  --footer-line: rgba(255, 240, 220, 0.14);
+  --terracotta: #d4a083;
+  --terracotta-ink: #d4a083;
+  --terracotta-wash: rgb(212 160 131 / 0.12);
+
+  --plum: #b9a6cb;
+  --plum-ink: #b9a6cb;
+  --plum-wash: rgb(185 166 203 / 0.12);
+
+  /* Footer espresso paling gelap sebagai penutup halaman. */
+  --footer-bg: #0f0b09;
+  --footer-text: #f2ebe1;
+  --footer-dim: #ad9f8f;
+  --footer-line: rgb(240 225 205 / 0.1);
 
   --whatsapp: #25d366;
   --whatsapp-dark: #1da851;
-  --whatsapp-ink: #0f7a3d;
-  --whatsapp-wash: #eafaf0;
-  --danger: #c0392b;
+  --whatsapp-ink: #4fd987;
+  --whatsapp-wash: rgba(37, 211, 102, 0.12);
+  --danger: #ef6f5e;
 
   --radius-sm: 10px;
   --radius: 16px;
   --radius-lg: 24px;
 
-  --shadow-sm: 0 4px 16px rgba(58, 40, 22, 0.09);
-  --shadow: 0 18px 44px rgba(58, 40, 22, 0.16);
+  --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.45);
+  --shadow: 0 18px 44px rgba(0, 0, 0, 0.6);
 
-  --font-display: 'Playfair Display', Georgia, serif;
+  /* Judul: Bricolage Grotesque, sans-serif modern yang berkarakter.
+     Teks biasa tetap Plus Jakarta Sans. */
+  --font-display: 'Bricolage Grotesque', 'Plus Jakarta Sans', system-ui, sans-serif;
   --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   --container: 1200px;
   --nav-height: 74px;
+  /* Lebar dan tinggi "pil" navbar saat halaman sudah di-scroll. */
+  --nav-pill-width: 940px;
+  --nav-pill-inset: 6px;
+  --ease-nav: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 *,
@@ -87,6 +107,12 @@
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  /* Saat sesuatu disentuh, Chrome di Android memblok warna biru transparan di
+     atasnya. Yang diwarnai bukan tombolnya, melainkan kotak blok terdekat --
+     dan tombol pembuka kartu produk itu `inset: 0` selebar kartu, jadi yang
+     berkedip biru seluruh kartunya. Dimatikan di sini, lalu diganti umpan balik
+     sendiri lewat :active supaya sentuhannya tetap terasa disahut. */
+  -webkit-tap-highlight-color: transparent;
   /* Cegah halaman bisa digeser ke samping. Dipakai `clip`, bukan `hidden`,
      karena `hidden` akan membuat html jadi wadah scroll sendiri dan itu
      merusak `position: sticky` pada navbar. */
@@ -123,6 +149,18 @@ button {
   border: none;
 }
 
+/* `manipulation` mematikan zoom ketuk-ganda di elemen ini saja. Tanpa itu
+   sebagian browser HP menahan dulu setiap ketukan, menunggu kalau-kalau disusul
+   ketukan kedua, dan pop up jadi terasa telat menyahut padahal animasinya
+   sendiri sudah cepat. Cubit untuk memperbesar halaman tetap jalan seperti
+   biasa. */
+button,
+a,
+label,
+summary {
+  touch-action: manipulation;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -132,9 +170,11 @@ h1,
 h2,
 h3 {
   font-family: var(--font-display);
-  line-height: 1.18;
-  font-weight: 700;
-  letter-spacing: -0.01em;
+  line-height: 1.12;
+  /* Medium, bukan bold: judulnya tetap menonjol lewat ukuran, tanpa terasa
+     berat. */
+  font-weight: 500;
+  letter-spacing: -0.02em;
 }
 
 ul,
@@ -255,13 +295,13 @@ ol {
 
 .btn--primary:hover {
   background: var(--accent-dark);
-  color: #fff;
+  color: var(--ink-on-accent);
 }
 
 .btn--ghost {
   border-color: var(--line-strong);
   color: var(--text);
-  background: #ffffff;
+  background: var(--surface);
 }
 
 .btn--ghost:hover {
@@ -325,41 +365,71 @@ ol {
 /* ---------- Navbar ---------- */
 
 /* Navbar menciut saat halaman di-scroll: dari bar selebar halaman menjadi
-   pil mengambang yang lebih sempit, berlatar buram, dan berbayang. */
+   pil mengambang yang lebih sempit, berlatar buram, dan berbayang.
+
+   Catatan teknis (penting untuk kehalusan animasinya):
+   Tinggi header SENGAJA dikunci di `--nav-height` dan tidak pernah ikut
+   berubah. Header ini `position: sticky`, jadi dia masih menempati ruang di
+   alur halaman -- kalau tingginya (atau `padding-top`-nya) dianimasikan,
+   seluruh isi halaman di bawahnya ikut dihitung ulang dan digambar ulang di
+   setiap frame. Itulah yang dulu membuat perpindahannya terasa patah-patah,
+   paling parah di HP. Sekarang yang berubah hanya lebar isi navbar dan
+   kepekatan latar pilnya. */
 .navbar {
   position: sticky;
   top: 0;
   z-index: 60;
   background: transparent;
-  transition: padding-top 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.navbar--scrolled {
-  padding-top: 14px;
 }
 
 .navbar__inner {
+  position: relative;
+  /* Bikin stacking context sendiri supaya latar pil (`::before` dengan
+     z-index negatif) pasti berada di belakang isi navbar, bukan di belakang
+     halaman. */
+  isolation: isolate;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 20px;
   height: var(--nav-height);
-  border: 1px solid transparent;
   border-radius: 999px;
-  transition: max-width 0.4s cubic-bezier(0.4, 0, 0.2, 1), height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    padding 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s ease, border-color 0.4s ease,
-    box-shadow 0.4s ease;
+  transition: max-width 0.5s var(--ease-nav);
+}
+
+/* Latar pil digambar sebagai lapisan terpisah yang UKURANNYA TETAP: posisinya
+   dihitung dari lebar isi navbar, dan karena isi navbar menciut tepat sampai
+   `--nav-pill-width`, kotak pil ini berada di titik yang sama persis baik
+   sebelum maupun sesudah di-scroll. Jadi bayangan dan blur-nya cukup digambar
+   sekali, lalu tinggal ditampilkan-disembunyikan lewat `opacity` -- pekerjaan
+   yang bisa diserahkan penuh ke GPU dan mulus di frame berapa pun. */
+.navbar__inner::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset-block: var(--nav-pill-inset);
+  inset-inline: max(0px, calc((100% - var(--nav-pill-width)) / 2));
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgb(var(--nav-rgb) / 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transform: scale(1.02);
+  transform-origin: center;
+  will-change: opacity, transform;
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.5s var(--ease-nav);
 }
 
 .navbar--scrolled .navbar__inner {
-  max-width: 940px;
-  height: 62px;
-  padding-left: 16px;
-  padding-right: 12px;
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(14px);
-  border-color: var(--line);
-  box-shadow: 0 10px 30px rgba(58, 40, 22, 0.14);
+  max-width: var(--nav-pill-width);
+}
+
+.navbar--scrolled .navbar__inner::before {
+  opacity: 1;
+  transform: none;
 }
 
 /* Logo ikut mengecil, tapi keterangan di bawah nama tetap ditampilkan. */
@@ -474,7 +544,7 @@ ol {
   border-radius: 999px;
   background: var(--accent);
   color: var(--ink-on-accent);
-  border: 2px solid #fff;
+  border: 2px solid var(--bg);
   font-size: 0.66rem;
   font-weight: 700;
   line-height: 1;
@@ -486,15 +556,15 @@ ol {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  padding: 84px 0 96px;
+  padding: 84px 0 150px;
   background:
-    radial-gradient(900px 460px at 78% 18%, rgba(224, 145, 47, 0.2), transparent 62%),
-    radial-gradient(700px 420px at 8% 82%, rgba(224, 145, 47, 0.08), transparent 60%),
+    radial-gradient(900px 460px at 78% 18%, rgb(var(--accent-rgb) / 0.2), transparent 62%),
+    radial-gradient(700px 420px at 8% 82%, rgb(var(--accent-rgb) / 0.08), transparent 60%),
     var(--bg);
 }
 
-/* Foto latar penuh, ditutup lapisan putih supaya teks gelap tetap terbaca
-   dan tema putih website tetap terjaga. */
+/* Foto latar penuh, ditutup lapisan cokelat gelap supaya teks terang tetap terbaca
+   dan tema gelap website tetap terjaga. */
 .hero__bg {
   position: absolute;
   inset: 0;
@@ -518,12 +588,29 @@ ol {
   background:
     linear-gradient(
       100deg,
-      rgba(255, 255, 255, 0.9) 0%,
-      rgba(255, 255, 255, 0.8) 34%,
-      rgba(255, 255, 255, 0.45) 58%,
-      rgba(255, 255, 255, 0.18) 100%
+      rgb(var(--bg-rgb) / 0.92) 0%,
+      rgb(var(--bg-rgb) / 0.82) 34%,
+      rgb(var(--bg-rgb) / 0.55) 58%,
+      rgb(var(--bg-rgb) / 0.3) 100%
     ),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0) 42%, #fff 100%);
+    linear-gradient(to bottom, rgb(var(--bg-rgb) / 0.2), rgb(var(--bg-rgb) / 0) 42%, rgb(var(--bg-rgb) / 0.35) 100%);
+}
+
+/* Tepi bawah hero berupa sapuan kuas kering yang berdebu, seperti batas
+   antara hero dan isi halaman di desain referensi. Bentuknya gambar mask
+   (src/assets/tepi-hero.png, dibuat oleh scripts/buat-tepi-sobek.py), jadi
+   warnanya cukup diatur lewat background: warna latar halaman. */
+.hero::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: clamp(70px, 10vw, 150px);
+  background: var(--bg);
+  -webkit-mask: url('../assets/tepi-hero.png') center bottom / 100% 100% no-repeat;
+  mask: url('../assets/tepi-hero.png') center bottom / 100% 100% no-repeat;
+  pointer-events: none;
 }
 
 @keyframes hero-bg-in {
@@ -569,7 +656,9 @@ ol {
 
 .hero__content h1 em {
   display: block;
-  font-style: italic;
+  /* Bricolage Grotesque tidak punya versi miring; penekanannya cukup lewat
+     warna emas. */
+  font-style: normal;
   color: var(--accent-soft);
 }
 
@@ -651,6 +740,13 @@ ol {
   box-shadow: var(--shadow-sm);
 }
 
+/* :active ikut menyala di elemen induk, jadi menekan tombol tembus pandang di
+   dalam kartu cukup untuk membuat seluruh kartunya bereaksi. */
+.product-card:active {
+  border-color: var(--accent);
+  background: var(--accent-wash);
+}
+
 /* Tombol tembus pandang selebar kartu supaya seluruh kartu bisa diklik untuk
    membuka pop up detail, sementara tombol Tambah tetap berada di atasnya. */
 .product-card__open {
@@ -688,37 +784,47 @@ ol {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.4s ease, opacity 0.55s ease;
+  transition: transform 0.4s ease, opacity 0.3s ease;
 }
 
 .product-card:hover .product-card__media .product-image {
   transform: scale(1.05);
 }
 
-/* Warna badge dibedakan per jenis supaya grid produk tidak terlihat seragam. */
+/* Badge sengaja memakai warna yang lebih hidup daripada palet halaman,
+   supaya langsung menarik mata di atas foto produk. Tiap jenis punya
+   gradasi lembut dari warna terang (`--tone-a`) ke warna utamanya
+   (`--tone-b`), dengan tulisan gelap (`--tone-ink`) yang tetap terbaca. */
 .product-card__badge {
-  --tone: var(--accent-soft);
+  --tone-a: #ffc247;
+  --tone-b: #f7a120;
+  --tone-ink: #2a1704;
   position: absolute;
   top: 12px;
   left: 12px;
-  padding: 5px 11px;
+  padding: 6px 12px;
   border-radius: 999px;
-  background: var(--tone);
-  color: #fff;
-  font-size: 0.68rem;
-  font-weight: 700;
+  background: linear-gradient(135deg, var(--tone-a), var(--tone-b));
+  color: var(--tone-ink);
+  font-size: 0.7rem;
+  font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  box-shadow: 0 2px 8px rgba(43, 33, 24, 0.28);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    0 4px 14px rgba(0, 0, 0, 0.5);
 }
 
-/* Badge Best Seller diberi kilau yang menyapu dari kiri ke kanan, lalu jeda
-   sejenak sebelum mengulang (satu siklus 2 detik). */
+/* Best Seller: amber logo Vitasari, cincin cahaya tipis, dan kilau yang
+   menyapu dari kiri ke kanan lalu jeda sejenak (satu siklus 2 detik). */
 .product-card__badge--best-seller {
-  --tone: var(--accent-soft);
   position: absolute;
   overflow: hidden;
   isolation: isolate;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 0 0 3px rgba(247, 161, 32, 0.28),
+    0 4px 16px rgba(247, 161, 32, 0.35);
 }
 
 .product-card__badge--best-seller::before {
@@ -731,7 +837,7 @@ ol {
   background: linear-gradient(
     -75deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.62) 50%,
+    rgba(255, 255, 255, 0.7) 50%,
     transparent 100%
   );
   animation: badge-shine 2s ease-in-out infinite;
@@ -747,20 +853,32 @@ ol {
   }
 }
 
-.product-card__badge--baru {
-  --tone: var(--pandan-ink);
-}
-
+/* Legendaris: emas gading. */
 .product-card__badge--legendaris {
-  --tone: var(--cocoa-ink);
+  --tone-a: #fff4df;
+  --tone-b: #e9cf9a;
+  --tone-ink: #2a1d10;
 }
 
+/* Untuk Perayaan: pink mawar. */
 .product-card__badge--untuk-perayaan {
-  --tone: var(--berry-ink);
+  --tone-a: #ff9db4;
+  --tone-b: #f06a8c;
+  --tone-ink: #2b0a14;
 }
 
+/* Oleh-oleh: hijau segar. */
 .product-card__badge--oleh-oleh {
-  --tone: var(--terracotta-ink);
+  --tone-a: #a8e07f;
+  --tone-b: #6cc06a;
+  --tone-ink: #0f2a0d;
+}
+
+/* Baru: hijau toska. */
+.product-card__badge--baru {
+  --tone-a: #8fe8da;
+  --tone-b: #3fbfae;
+  --tone-ink: #0b2622;
 }
 
 .product-card__check {
@@ -773,7 +891,7 @@ ol {
   height: 26px;
   border-radius: 50%;
   background: var(--tone, var(--accent-soft));
-  color: #fff;
+  color: var(--ink-on-accent);
 }
 
 .product-card__body {
@@ -858,7 +976,7 @@ ol {
      frame. Buramnya memangkas laju frame hampir setengah, padahal di balik
      lapisan gelap 52% nyaris tidak terlihat. Kepekatannya dinaikkan sedikit
      (dari 42%) sebagai gantinya. */
-  background: rgba(43, 33, 24, 0.52);
+  background: rgba(0, 0, 0, 0.72);
   /* Beri tahu browser sejak awal supaya lapisan untuk memudarnya disiapkan
      sebelum animasi mulai, bukan di tengah jalan. */
   will-change: opacity;
@@ -877,6 +995,9 @@ ol {
 .quick-view__frame {
   position: relative;
   width: min(520px, 100%);
+  /* Sama seperti latarnya: lapisannya disiapkan sejak awal, supaya frame pertama
+     animasi tidak habis dipakai untuk membuat lapisan itu dulu. */
+  will-change: transform, opacity;
 }
 
 .quick-view__card {
@@ -1011,9 +1132,9 @@ ol {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.94);
+  background: rgb(var(--bg-rgb) / 0.92);
   color: var(--text);
-  box-shadow: 0 2px 10px rgba(43, 33, 24, 0.22);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 /* ---------- Qty stepper ---------- */
@@ -1059,7 +1180,7 @@ ol {
 
 .qty-stepper__value:focus {
   outline: none;
-  background: #fff;
+  background: var(--bg);
   box-shadow: inset 0 0 0 1px var(--accent);
 }
 
@@ -1190,9 +1311,9 @@ ol {
 }
 
 /* Waktu kartunya disorot, alas kartu berubah jadi warna kategori, jadi kotak
-   ikonnya dibalik jadi putih supaya tetap terpisah dari alasnya. */
+   ikonnya dibalik jadi hitam supaya tetap terpisah dari alasnya. */
 .category-card:hover .category-card__icon {
-  background: #fff;
+  background: var(--bg);
 }
 
 /* Panah penanda bahwa kartunya bisa diklik. */
@@ -1290,11 +1411,11 @@ ol {
 
 /* ---------- Sertifikat halal ---------- */
 
-/* Seksi ini memakai nuansa hijau, warna yang lazim untuk label halal sekaligus
-   membedakannya dari seksi lain yang serba krem. */
+/* Latarnya espresso biasa; nuansa hijau sage (warna yang lazim untuk label
+   halal) cukup pada label kecil di atas judulnya. */
 .halal {
-  background: var(--pandan-wash);
-  border-color: rgba(47, 107, 40, 0.16);
+  background: var(--bg-alt);
+  border-color: var(--line);
 }
 
 .halal .eyebrow {
@@ -1339,8 +1460,8 @@ ol {
   margin-top: 16px;
   padding: 9px 18px;
   border-radius: 999px;
-  background: #fff;
-  border: 1px solid rgba(47, 107, 40, 0.3);
+  background: var(--surface);
+  border: 1px solid rgba(94, 166, 76, 0.35);
   font-size: 0.88rem;
 }
 
@@ -1357,12 +1478,12 @@ ol {
 /* Tiap halaman punya semburat warna sendiri di kepala halaman, supaya berpindah
    halaman terasa ada pergantian suasana. */
 .page-header {
-  --glow: rgba(224, 145, 47, 0.18);
+  --glow: rgb(var(--accent-rgb) / 0.18);
   --tone: var(--accent-soft);
   padding: 52px 0 34px;
   background:
     radial-gradient(760px 380px at 22% 0%, var(--glow), transparent 64%),
-    radial-gradient(620px 320px at 88% 10%, rgba(196, 69, 107, 0.07), transparent 62%),
+    radial-gradient(620px 320px at 88% 10%, rgb(var(--glow-2-rgb) / 0.07), transparent 62%),
     var(--bg);
   border-bottom: 1px solid var(--line);
 }
@@ -1373,7 +1494,7 @@ ol {
 }
 
 .page-header--tentang {
-  --glow: rgba(196, 69, 107, 0.17);
+  --glow: rgb(var(--glow-2-rgb) / 0.17);
   --tone: var(--berry-ink);
 }
 
@@ -1463,7 +1584,7 @@ ol {
 .field select {
   appearance: none;
   -webkit-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236a5a49' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23bdb3a6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 16px center;
   background-size: 16px 16px;
@@ -1540,7 +1661,7 @@ ol {
 .chip.is-active {
   background: var(--tone, var(--accent-soft));
   border-color: var(--tone, var(--accent-soft));
-  color: #fff;
+  color: var(--ink-on-accent);
   font-weight: 600;
 }
 
@@ -1620,7 +1741,7 @@ ol {
 
 .store-item.is-open {
   border-color: var(--accent);
-  box-shadow: 0 10px 26px rgba(138, 79, 19, 0.13);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
 }
 
 .store-item__heading {
@@ -1745,6 +1866,93 @@ ol {
   place-items: center;
   color: var(--text-dim);
   font-size: 0.9rem;
+}
+
+/* ---------- Halaman satu cabang ---------- */
+
+.branch-card {
+  padding: 18px 20px 20px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-sm);
+}
+
+.branch-card__title {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--accent-dark);
+}
+
+.branch-card__text {
+  margin-top: 8px;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+/* ---------- Kartu tautan ke halaman cabang ---------- */
+
+.area-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 14px;
+}
+
+.area-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 15px 38px 15px 16px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--text);
+  transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.area-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  background: var(--accent-wash);
+}
+
+.area-card h3 {
+  font-family: var(--font-body);
+  font-size: 0.94rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--accent-dark);
+}
+
+.area-card p {
+  margin-top: 5px;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+}
+
+.area-card__hours {
+  margin-top: auto;
+  padding-top: 8px;
+  font-size: 0.76rem;
+  color: var(--text-dim);
+}
+
+.area-card__arrow {
+  position: absolute;
+  top: 17px;
+  right: 14px;
+  color: var(--text-dim);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.area-card:hover .area-card__arrow {
+  transform: translateX(3px);
+  color: var(--accent);
 }
 
 /* ---------- Penanda dan popup peta ---------- */
@@ -1897,11 +2105,12 @@ ol {
 
 /* ---------- Footer ---------- */
 
-/* Footer sengaja gelap sebagai penutup halaman, memberi kontras pada badan
-   website yang serba putih. */
+/* Footer hitam pekat sebagai penutup halaman, dipisah garis tipis dari
+   badan website. */
 .footer {
   background: var(--footer-bg);
   color: var(--footer-text);
+  border-top: 1px solid var(--footer-line);
   margin-top: auto;
 }
 
@@ -2006,8 +2215,14 @@ ol {
   position: fixed;
   inset: 0;
   z-index: 70;
-  background: rgba(43, 33, 24, 0.42);
-  backdrop-filter: blur(3px);
+  /* Tanpa backdrop-filter, dengan alasan yang sama persis seperti latar pop up
+     produk -- lihat catatan pengukuran di .quick-view__backdrop. Bedanya lapisan
+     ini SELALU ada di halaman, cuma disembunyikan dengan opacity dan visibility.
+     Elemen ber-backdrop-filter memaksa browser menyiapkan lapisan tersendiri
+     untuk seluruh isi di belakangnya, dan itu ditanggung terus-menerus, bukan
+     cuma waktu keranjang dibuka. Kepekatannya dinaikkan sedikit sebagai
+     gantinya. */
+  background: rgba(0, 0, 0, 0.7);
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.28s ease, visibility 0.28s ease;
@@ -2181,11 +2396,9 @@ ol {
 }
 
 .cart-drawer__total strong {
-  /* Nominal total sengaja tidak memakai Playfair Display. Angka serif itu
-     ramping dan kontras tebal-tipisnya tinggi, jadi susah dibaca sekilas
-     padahal ini justru angka yang paling dicari pelanggan. Font body jauh
-     lebih tegas, dan `tabular-nums` menyamakan lebar tiap digit supaya
-     angkanya rapi dan tidak "bergoyang" saat jumlah barang berubah. */
+  /* Nominal total memakai font body dengan `tabular-nums`, yang menyamakan
+     lebar tiap digit supaya angkanya rapi dan tidak "bergoyang" saat jumlah
+     barang berubah. */
   font-family: var(--font-body);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
@@ -2214,7 +2427,7 @@ ol {
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background: rgba(43, 33, 24, 0.52);
+  background: rgba(0, 0, 0, 0.72);
   backdrop-filter: blur(4px);
   animation: fade-in 0.2s ease;
   overscroll-behavior: contain;
@@ -2425,9 +2638,9 @@ ol {
 .form-error {
   padding: 11px 14px;
   border-radius: var(--radius-sm);
-  background: #fdecea;
-  border: 1px solid rgba(192, 57, 43, 0.35);
-  color: #a3271b;
+  background: rgba(239, 111, 94, 0.1);
+  border: 1px solid rgba(239, 111, 94, 0.4);
+  color: #ffb3a7;
   font-size: 0.86rem;
 }
 
@@ -2584,7 +2797,12 @@ ol {
 
 /* ---------- Muncul saat di-scroll ---------- */
 
-.reveal {
+/* Disembunyikan HANYA kalau JavaScript hidup (kelas `js` dipasang sebaris di
+   index.html sebelum halaman digambar). HTML halaman ditulis saat build lengkap
+   dengan isinya, jadi tanpa syarat ini seluruh teks yang baru saja susah payah
+   di-prerender justru tak terlihat -- termasuk oleh Google, yang ikut membaca
+   CSS dan menganggap isi ber-opacity nol sebagai isi yang disembunyikan. */
+.js .reveal {
   opacity: 0;
 }
 
@@ -2750,7 +2968,13 @@ img {
 
 img.product-image {
   opacity: 0;
-  transition: opacity 0.55s ease;
+  transition: opacity 0.3s ease;
+}
+
+/* <picture> pembungkus versi WebP tidak ikut dalam tata letak: ukuran foto
+   tetap mengikuti kotaknya, persis seperti <img> biasa. */
+.product-image__picture {
+  display: contents;
 }
 
 img.product-image.is-loaded {
@@ -2800,11 +3024,11 @@ img.product-image.is-loaded {
 }
 
 .btn--primary {
-  box-shadow: 0 2px 10px rgba(224, 145, 47, 0.3);
+  box-shadow: 0 2px 10px rgb(var(--accent-rgb) / 0.3);
 }
 
 .btn--primary:hover {
-  box-shadow: 0 10px 22px rgba(138, 79, 19, 0.3);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.5);
 }
 
 .btn--whatsapp {
@@ -2812,7 +3036,7 @@ img.product-image.is-loaded {
 }
 
 .btn--whatsapp:hover {
-  box-shadow: 0 10px 22px rgba(15, 122, 61, 0.3);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.5);
 }
 
 /* ---------- Logo di navbar ---------- */
@@ -2823,7 +3047,7 @@ img.product-image.is-loaded {
 
 .navbar__logo {
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-    width 0.4s cubic-bezier(0.4, 0, 0.2, 1), height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    width 0.5s var(--ease-nav), height 0.5s var(--ease-nav);
 }
 
 .navbar__brand:hover .navbar__logo {
@@ -2867,7 +3091,7 @@ img.product-image.is-loaded {
      karena judul dan paragraf hero berada di sana. */
   .hero__bg::after {
     background:
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.6) 55%, #fff 100%);
+      linear-gradient(to bottom, rgb(var(--bg-rgb) / 0.85), rgb(var(--bg-rgb) / 0.7) 55%, rgb(var(--bg-rgb) / 0.6) 100%);
   }
 
   .about-split {
@@ -2920,6 +3144,17 @@ img.product-image.is-loaded {
     place-items: center;
   }
 
+  /* Di HP, `backdrop-filter` adalah efek termahal yang ada di navbar: GPU
+     harus mem-blur ulang apa pun yang lewat di belakang pil selama halaman
+     di-scroll. Diganti latar yang hampir pekat -- tampilannya nyaris sama,
+     tapi jauh lebih ringan. */
+  .navbar__inner::before {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgb(var(--nav-rgb) / 0.96);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+  }
+
   /* Menu mobile tampil sebagai kartu mengambang di bawah pil navbar. */
   .navbar__links {
     position: absolute;
@@ -2931,10 +3166,13 @@ img.product-image.is-loaded {
     gap: 2px;
     padding: 12px;
     border-radius: var(--radius);
-    background: rgba(255, 255, 255, 0.97);
+    /* Latarnya sudah 98% pekat, jadi backdrop-filter di sini tidak menghasilkan
+       apa pun yang terlihat -- tapi tetap membuat browser menyiapkan lapisan
+       untuk isi di belakangnya, terus-menerus, di dalam header yang ikut
+       bergerak setiap kali halaman digulir. Dibuang. */
+    background: rgb(var(--nav-rgb) / 0.98);
     border: 1px solid var(--line);
     box-shadow: var(--shadow);
-    backdrop-filter: blur(14px);
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px) scale(0.98);
@@ -2970,7 +3208,7 @@ img.product-image.is-loaded {
   }
 
   .hero {
-    padding: 56px 0 72px;
+    padding: 56px 0 110px;
   }
 
   /* Tombol hero dibuat seukuran isinya, bukan melebar penuh, supaya tidak
@@ -3065,9 +3303,16 @@ img.product-image.is-loaded {
 
   /* Toolbar di layar HP ditumpuk: kolom pencarian penuh di atas, lalu tombol
      urutan dan filter bersebelahan dengan ukuran yang lebih ringkas. */
+  /* Kolom cari dan urutan sejajar dalam satu baris, supaya bagian yang
+     menempel di atas tidak memakan banyak layar HP. */
   .menu-toolbar {
-    flex-direction: column;
-    gap: 10px;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .menu-toolbar .sort-field {
+    flex: 0 0 132px;
+    min-width: 0;
   }
 
   .menu-toolbar__controls {
@@ -3097,8 +3342,36 @@ img.product-image.is-loaded {
 
   /* Kategori sudah diwakili dropdown filter, chip-nya tidak perlu ditampilkan
      lagi supaya layar tidak habis untuk tombol. */
+  /* Kategori tetap berupa chip, tapi satu baris yang bisa digeser ke samping:
+     sekali ketuk langsung pindah kategori, tanpa membuka dropdown. Ujung
+     kanannya memudar sebagai tanda masih ada pilihan lain. */
   .chip-row {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin-inline: -20px;
+    padding: 2px 20px 4px;
+    scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(to right, #000 85%, transparent);
+    mask-image: linear-gradient(to right, #000 85%, transparent);
+  }
+
+  .chip-row::-webkit-scrollbar {
     display: none;
+  }
+
+  .chip {
+    flex-shrink: 0;
+  }
+
+  /* iPhone memperbesar halaman otomatis kalau kolom isian bertulisan di bawah
+     16px. Di HP semua kolom isian dibuat 16px supaya halaman tidak melompat
+     saat mulai mengetik. */
+  .search-field input,
+  .sort-field select,
+  .field input,
+  .field select,
+  .field textarea {
+    font-size: 16px;
   }
 
   .field-row {
@@ -3188,5 +3461,721 @@ img.product-image.is-loaded {
 @media (max-width: 380px) {
   .product-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+
+/* =========================================================
+   Peningkatan UX
+   ========================================================= */
+
+/* ---------- Lewati ke konten ---------- */
+
+/* Tersembunyi sampai difokus dengan Tab, lalu muncul di pojok kiri atas. */
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 200;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink-on-accent);
+  font-size: 0.86rem;
+  font-weight: 700;
+  transform: translateY(-160%);
+  transition: transform 0.2s ease;
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+main:focus {
+  outline: none;
+}
+
+/* ---------- Tombol kembali ke atas ---------- */
+
+.back-to-top {
+  position: fixed;
+  right: 20px;
+  bottom: 24px;
+  z-index: 64;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--line-strong);
+  box-shadow: var(--shadow-sm);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s,
+    background-color 0.18s ease, color 0.18s ease;
+}
+
+.back-to-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.back-to-top:hover {
+  background: var(--accent);
+  color: var(--ink-on-accent);
+}
+
+/* ---------- Status buka cabang ---------- */
+
+.branch-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 8px;
+  font-family: var(--font-body);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--text-muted);
+}
+
+.branch-status__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-dim);
+  flex-shrink: 0;
+}
+
+.branch-status--open {
+  color: var(--pandan-ink);
+}
+
+.branch-status--open .branch-status__dot {
+  background: #6fd15a;
+  box-shadow: 0 0 0 3px rgba(111, 209, 90, 0.18);
+}
+
+.branch-status--soon {
+  color: var(--accent-soft);
+}
+
+.branch-status--soon .branch-status__dot {
+  background: var(--accent);
+  box-shadow: 0 0 0 3px rgb(var(--accent-rgb) / 0.2);
+}
+
+.branch-status--block {
+  display: flex;
+  margin: 10px 0 2px;
+}
+
+/* Di judul daftar cabang, status diletakkan di bawah nama cabang. */
+.store-item__title {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.store-item__title .branch-status {
+  margin-top: 4px;
+}
+
+/* ---------- Menu: pencarian & kategori ---------- */
+
+.chip__count {
+  margin-left: 6px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  opacity: 0.7;
+}
+
+.search-field__clear {
+  position: absolute;
+  right: 6px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: var(--text-dim);
+  transition: color 0.18s ease, background-color 0.18s ease;
+}
+
+.search-field__clear:hover {
+  color: var(--text);
+  background: var(--surface-2);
+}
+
+/* Tanda silang bawaan browser disembunyikan; diganti tombol sendiri di atas. */
+.search-field input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+.search-field input {
+  padding-right: 42px;
+}
+
+.result-count {
+  margin-top: 12px;
+}
+
+/* ---------- Checkout: pilihan cabang yang terlewat ---------- */
+
+.branch-picker--error .branch-picker__grid {
+  border-radius: var(--radius-sm);
+  outline: 2px solid var(--danger);
+  outline-offset: 6px;
+  animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
+
+/* ---------- Target sentuh di HP ---------- */
+
+/* Jari butuh area sentuh sekitar 40-44px. Di perangkat layar sentuh, tombol
+   kecil diperbesar area sentuhnya tanpa mengubah tampilan di desktop. */
+@media (pointer: coarse) {
+  .qty-stepper button {
+    width: 36px;
+    height: 36px;
+  }
+
+  .qty-stepper--sm button {
+    width: 32px;
+    height: 32px;
+  }
+
+  .cart-item__remove {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    margin: -8px;
+  }
+
+  .icon-button {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (max-width: 640px) {
+  .back-to-top {
+    right: 14px;
+    bottom: 18px;
+  }
+
+  /* Naik di atas bar keranjang kalau bar itu sedang tampil. */
+  .back-to-top--raised {
+    bottom: 84px;
+  }
+}
+
+/* =========================================================
+   Halaman Menu: filter di kiri, produk di kanan
+   ========================================================= */
+
+.catalog {
+  display: grid;
+  grid-template-columns: 264px minmax(0, 1fr);
+  align-items: start;
+  gap: 36px;
+}
+
+/* Kolom filter ikut turun saat daftar produk digulir. Letaknya di bawah
+   navbar, jadi tidak tertimpa pil navbar. Kalau layarnya pendek, isinya
+   bisa digulir sendiri. */
+.catalog__sidebar {
+  position: sticky;
+  top: calc(var(--nav-height) + 16px);
+  max-height: calc(100vh - var(--nav-height) - 32px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
+/* `min-width: 0` mencegah deretan chip yang bisa digeser melebarkan kolom
+   produk melebihi layar. */
+.catalog__main {
+  min-width: 0;
+}
+
+.filter-panel {
+  padding: 22px 20px 24px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+
+.filter-panel__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.filter-panel__title {
+  font-size: 1.35rem;
+}
+
+.filter-panel__reset {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent-soft);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.filter-panel__reset:hover {
+  color: var(--accent-dark);
+}
+
+.filter-group {
+  margin: 18px 0 0;
+  padding: 18px 0 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+
+.filter-group__title {
+  margin-bottom: 10px;
+  padding: 0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-soft);
+}
+
+.filter-options {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Pilihan urutan: radio asli disembunyikan, diganti titik bulat sendiri. */
+.filter-option {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+.filter-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.filter-option:hover {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.filter-option:focus-within {
+  outline: 2px solid var(--accent-soft);
+  outline-offset: 1px;
+}
+
+.filter-option__dot {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--line-strong);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+}
+
+.filter-option.is-active {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.filter-option.is-active .filter-option__dot {
+  border-color: var(--accent);
+  background: var(--accent);
+  box-shadow: inset 0 0 0 3px var(--surface);
+}
+
+/* Kategori */
+.filter-category {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  text-align: left;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+.filter-category:hover {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.filter-category__count {
+  font-size: 0.76rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-dim);
+}
+
+.filter-category.is-active {
+  background: var(--accent-wash);
+  color: var(--accent-soft);
+  font-weight: 600;
+}
+
+.filter-category.is-active .filter-category__count {
+  color: var(--accent-soft);
+}
+
+/* Di layar lebar kategori sudah ada di kolom kiri, jadi chip-nya disembunyikan;
+   begitu juga tombol Filter dan panel dari bawah, yang hanya untuk HP. */
+.catalog .chip-row,
+.filter-toggle,
+.filter-sheet,
+.filter-sheet-overlay {
+  display: none;
+}
+
+.filter-toggle {
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--text);
+  transition: border-color 0.18s ease;
+}
+
+.filter-toggle:hover {
+  border-color: var(--accent-soft);
+}
+
+.filter-toggle__count {
+  display: grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--ink-on-accent);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+@media (max-width: 900px) {
+  .catalog {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .catalog__sidebar {
+    display: none;
+  }
+
+  .catalog .chip-row {
+    display: flex;
+  }
+
+  .filter-toggle {
+    display: inline-flex;
+  }
+
+  .catalog .menu-toolbar {
+    flex-direction: row;
+    gap: 8px;
+  }
+
+  /* Panel filter yang naik dari bawah layar. */
+  .filter-sheet-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 84;
+    background: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.28s ease, visibility 0.28s;
+  }
+
+  .filter-sheet-overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .filter-sheet {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 85;
+    display: flex;
+    flex-direction: column;
+    max-height: 86dvh;
+    border-radius: 22px 22px 0 0;
+    background: var(--surface);
+    border-top: 1px solid var(--line-strong);
+    box-shadow: var(--shadow);
+    transform: translateY(100%);
+    visibility: hidden;
+    transition: transform 0.34s cubic-bezier(0.32, 0.72, 0, 1), visibility 0.34s;
+  }
+
+  .filter-sheet.is-open {
+    transform: none;
+    visibility: visible;
+  }
+
+  .filter-sheet__grip {
+    flex-shrink: 0;
+    width: 42px;
+    height: 4px;
+    margin: 10px auto 2px;
+    border-radius: 999px;
+    background: var(--line-strong);
+  }
+
+  .filter-sheet__close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+  }
+
+  .filter-sheet__body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 4px 20px 12px;
+  }
+
+  /* Di dalam panel bawah, kotak panelnya sendiri tidak perlu dibingkai lagi. */
+  .filter-sheet .filter-panel {
+    padding: 6px 0 0;
+    background: none;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .filter-sheet .filter-option,
+  .filter-sheet .filter-category {
+    padding: 11px 10px;
+    font-size: 0.95rem;
+  }
+
+  .filter-sheet__footer {
+    flex-shrink: 0;
+    padding: 12px 20px calc(16px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--line);
+  }
+}
+
+
+/* =========================================================
+   Layar loading (components/Preloader.jsx)
+   ========================================================= */
+
+/* Tanpa JavaScript tidak ada yang menutupnya, jadi tidak ditampilkan sama
+   sekali (kelas `js` dipasang di index.html). */
+html:not(.js) .preloader {
+  display: none;
+}
+
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(520px 340px at 50% 46%, rgb(var(--accent-rgb) / 0.1), transparent 70%),
+    var(--bg);
+  transition: opacity 0.7s ease, visibility 0.7s;
+  /* Pengaman kalau JavaScript gagal: layar loading memudar sendiri. */
+  animation: preloader-failsafe 0.6s ease 7s forwards;
+}
+
+/* Selesai: seluruh layar loading memudar, memperlihatkan halaman di baliknya. */
+.preloader--leaving {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Awal: isi layar loading memudar masuk. */
+.preloader__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: preloader-fade-in 0.6s ease both;
+}
+
+@keyframes preloader-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.preloader__mark {
+  position: relative;
+}
+
+/* Tulisan "Vitasari" muncul dari kiri ke kanan, seperti sedang ditulis. */
+.preloader__wordmark {
+  display: block;
+  width: clamp(200px, 30vw, 340px);
+  height: auto;
+  color: var(--text);
+  clip-path: inset(0 100% 0 0);
+  animation: preloader-write 1.25s cubic-bezier(0.65, 0, 0.35, 1) 0.15s forwards;
+}
+
+/* Lapisan emas di atasnya menyapu huruf dari kiri ke kanan, berulang pelan. */
+.preloader__shine {
+  position: absolute;
+  inset: 0;
+  color: var(--accent-dark);
+  clip-path: inset(0 100% 0 0);
+  animation: preloader-shine 1.8s cubic-bezier(0.65, 0, 0.35, 1) 1.3s infinite;
+}
+
+.preloader__tagline {
+  margin-top: 14px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--accent-soft);
+  opacity: 0;
+  animation: preloader-rise 0.7s ease 0.9s forwards;
+}
+
+/* Bilah progres dengan angka persentase di bawahnya. Lebarnya digerakkan
+   oleh JavaScript setiap frame, jadi tidak perlu transisi CSS. */
+.preloader__progress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 30px;
+  opacity: 0;
+  animation: preloader-rise 0.4s ease forwards;
+}
+
+.preloader__bar {
+  position: relative;
+  width: clamp(180px, 22vw, 240px);
+  height: 3px;
+  border-radius: 3px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.preloader__bar span {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
+}
+
+.preloader__percent {
+  min-width: 4ch;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-dim);
+}
+
+@keyframes preloader-write {
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes preloader-shine {
+  0% {
+    clip-path: inset(0 100% 0 0);
+  }
+  50% {
+    clip-path: inset(0 0 0 0);
+  }
+  100% {
+    clip-path: inset(0 0 0 100%);
+  }
+}
+
+@keyframes preloader-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes preloader-failsafe {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* Selama layar loading menutupi halaman, animasi masuk hero dan judul
+   halaman ditahan, supaya baru dimainkan saat layar loading memudar, bukan
+   diam-diam di belakangnya. */
+html.is-loading .hero__content > *,
+html.is-loading .hero__image-frame,
+html.is-loading .hero__bg img,
+html.is-loading .page-header .container > *,
+html.is-loading .page-enter {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .preloader__wordmark,
+  .preloader__tagline,
+  .preloader__progress {
+    clip-path: none;
+    opacity: 1;
+    animation: none;
+  }
+
+  .preloader__shine {
+    display: none;
   }
 }

@@ -13,10 +13,24 @@ const basename = import.meta.env.BASE_URL.replace(/\/$/, '');
 // sejauh mana ini melindungi -- dan sejauh mana tidak.
 protectImages();
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+const wadah = document.getElementById('root');
+
+const aplikasi = (
   <React.StrictMode>
     <BrowserRouter basename={basename}>
       <App />
     </BrowserRouter>
-  </React.StrictMode>,
+  </React.StrictMode>
 );
+
+// Hasil build sudah berisi HTML jadi dari scripts/prerender.js, jadi React
+// cukup "menghidupkan" markup yang sudah ada (hydrate) alih-alih menggambar
+// ulang semuanya dari nol. Halaman jadi tampil lebih dulu, dan tidak berkedip.
+//
+// Saat `npm run dev` tidak ada prerender -- yang ada di dalam #root hanya
+// komentar penanda -- jadi di situ aplikasi digambar dari nol seperti biasa.
+if (wadah.firstElementChild) {
+  ReactDOM.hydrateRoot(wadah, aplikasi);
+} else {
+  ReactDOM.createRoot(wadah).render(aplikasi);
+}

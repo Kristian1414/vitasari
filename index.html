@@ -5,21 +5,35 @@
     <link rel="icon" type="image/jpeg" href="/logo-vitasari.jpg" />
     <link rel="apple-touch-icon" href="/logo-vitasari.jpg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Judul dan deskripsi di bawah ini ditimpa saat build dari PAGE_META['/']
-         di src/data/site.js, lalu ditimpa lagi per halaman oleh components/Seo.jsx.
-         Yang tertulis di sini hanya cadangan kalau kedua-duanya tidak jalan. -->
-    <title>Vitasari Bakery — Toko Roti &amp; Kue Bandung Sejak 1991</title>
-    <meta name="description" content="Toko roti dan kue legendaris di Bandung sejak 1991." />
-    <meta name="theme-color" content="#ffffff" />
+    <!-- Seluruh isi <head> khusus halaman ditulis di sini saat build oleh
+         scripts/prerender.js, berbeda untuk tiap halaman. Lihat scripts/seo-head.js.
+         Saat `npm run dev` penanda ini dibiarkan apa adanya, dan judul halaman
+         disetel components/Seo.jsx begitu aplikasi hidup. -->
+    <!--head-->
+
+    <!-- Menandai bahwa JavaScript hidup. Tanpa tanda ini global.css tidak akan
+         menyembunyikan apa pun, sehingga isi halaman hasil prerender tetap
+         terbaca walau JavaScript gagal dimuat. Ditulis sebaris di sini supaya
+         sudah berjalan sebelum halaman digambar pertama kali. -->
+    <script>
+      document.documentElement.classList.add('js', 'is-loading');
+      // Pengaman: kalau JavaScript utama gagal dimuat, animasi masuk halaman
+      // tetap dilepas setelah 7 detik (lihat juga .preloader di global.css).
+      setTimeout(function () {
+        document.documentElement.classList.remove('is-loading');
+      }, 7000);
+    </script>
+    <meta name="theme-color" content="#17120f" />
+    <meta name="color-scheme" content="dark" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><!--app-html--></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

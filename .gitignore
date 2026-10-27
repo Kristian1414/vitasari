@@ -11,3 +11,7 @@ dist-ssr
 
 # Model super-resolution (diunduh otomatis oleh scripts/pertajam_foto.py)
 scripts/models/
+
+# Folder kerja desain (screenshot sebelum/sesudah)
+.taste-skill/
+__pycache__/
